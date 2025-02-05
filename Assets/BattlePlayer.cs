@@ -8,6 +8,7 @@ public class BattlePlayer : MonoBehaviour
     public AudioSource soundSource;
 
     public AudioClip healClip;
+    public AudioClip speedupClip;
     public AudioClip rotateClip;
     public AudioClip cancelClip;
     
@@ -52,32 +53,55 @@ public class BattlePlayer : MonoBehaviour
         
         if (Input.GetKeyDown(KeyCode.Alpha1))
         {
-            foreach (var ally in BattleField.Instance.allies)
+            var target = findCharacterInFront();
+            if (target != null)
             {
-                Vector3 playerForward = transform.forward;
-
-                // Calculate the direction from the player to the target object
-                Vector3 directionToTarget = ally.transform.position - transform.position;
-
-                // Calculate the angle between the player's forward direction and the target's direction
-                float angle = Vector3.Angle(playerForward, directionToTarget);
-
-                // Check if the angle is within 30 degrees
-                if (angle <= 20f)
-                {
-                    
-                    soundSource.PlayOneShot(healClip);
-                    ally.Heal();
-                    Debug.Log("The object is within 30 degrees in front of the player.");
-                    break;
-                }
-                else
-                {
-                    soundSource.PlayOneShot(cancelClip);
-                    Debug.Log("The object is outside the 30-degree angle.");
-                }
+                soundSource.PlayOneShot(healClip);
+                target.Heal();
             }
         }
+        
+        
+        if (Input.GetKeyDown(KeyCode.Alpha2))
+        {
+            var target = findCharacterInFront();
+            if (target != null)
+            {
+                soundSource.PlayOneShot(speedupClip);
+                target.Speedup();
+            }
+        }
+    }
+
+    BattleCharacter findCharacterInFront()
+    {
+        foreach (var ally in BattleField.Instance.allies)
+        {
+            Vector3 playerForward = transform.forward;
+
+            // Calculate the direction from the player to the target object
+            Vector3 directionToTarget = ally.transform.position - transform.position;
+
+            // Calculate the angle between the player's forward direction and the target's direction
+            float angle = Vector3.Angle(playerForward, directionToTarget);
+
+            // Check if the angle is within 30 degrees
+            if (angle <= 20f)
+            {
+                return ally;
+                soundSource.PlayOneShot(healClip);
+                ally.Heal();
+                Debug.Log("The object is within 30 degrees in front of the player.");
+                break;
+            }
+            else
+            {
+                soundSource.PlayOneShot(cancelClip);
+                Debug.Log("The object is outside the 30-degree angle.");
+            }
+        }
+
+        return null;
     }
 
     void Rotate()

@@ -426,6 +426,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   soundSource: {fileID: 668510207}
   healClip: {fileID: 8300000, guid: 3639e4b8972c405428e1a6ae12d099c7, type: 3}
+  speedupClip: {fileID: 8300000, guid: 8c4c0fc137a944746b20de09788cf1f1, type: 3}
   rotateClip: {fileID: 8300000, guid: 595013f7e389fdd4296ce371959eaa22, type: 3}
   cancelClip: {fileID: 8300000, guid: 3fdb0bf2554f3f84395d4122b235ae66, type: 3}
 --- !u!81 &793882878

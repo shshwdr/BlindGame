@@ -33,10 +33,13 @@ public class BattleCharacter : MonoBehaviour
 
     // Update is called once per frame
     void Update()
-    {if (isDead)
+    {
+        if (isDead)
         {
             return;
         }
+
+        speedupTimer -= Time.deltaTime;
         if (!isEnmey)
         {
             if (target == null)
@@ -61,7 +64,7 @@ public class BattleCharacter : MonoBehaviour
                 {
                      if (attackTimer <= 0)
                      {
-                         attackTimer = attackTime;
+                         attackTimer = AttackTime();
                          Attack(target);
                      }
                      else
@@ -136,6 +139,28 @@ public class BattleCharacter : MonoBehaviour
     public void Heal()
     {
         currentHP = Mathf.Clamp(currentHP + 50, 0, maxHP);
+    }
+
+    private float speedupTime = 5;
+    private float speedupValue = 2;
+    private float speedupTimer = 0;
+    public void Speedup()
+    {
+        speedupTimer = speedupTime;
+    }
+
+    bool isSpeedUp()
+    {
+        return speedupTimer > 0;
+    }
+
+    float AttackTime()
+    {
+        if (isSpeedUp())
+        {
+            return attackTime / 2f;
+        }
+        return attackTime;
     }
     
     public int AttackValue
