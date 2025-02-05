@@ -10,16 +10,19 @@ public class BattleCharacter : MonoBehaviour
 
     public AudioSource moveSoundSource;
     public AudioSource attackSoundSource;
+    public AudioSource takeDamageSoundSource;
+    public AudioSource deathSoundSource;
     public AudioSource spawnSoundSource;
 
     private BattleCharacter target;
 
     private float attackTimer;
-    private float attackTime = 1f;
+    public float attackTime = 1.7f;
 
     private int currentHP;
-    private int maxHP = 100;
+    public int maxHP = 100;
     private bool isWalking = false;
+    public int attackValue = 10;
 
     public bool isDead = false;
     // Start is called before the first frame update
@@ -30,7 +33,10 @@ public class BattleCharacter : MonoBehaviour
 
     // Update is called once per frame
     void Update()
-    {
+    {if (isDead)
+        {
+            return;
+        }
         if (!isEnmey)
         {
             if (target == null)
@@ -67,14 +73,43 @@ public class BattleCharacter : MonoBehaviour
                 }
             }
         }
+        else
+        {
+            if (target)
+            {
+                
+                if (attackTimer <= 0)
+                {
+                    attackTimer = attackTime;
+                    Attack(target);
+                }
+                else
+                {
+                    attackTimer -= Time.deltaTime;
+                }
+                StopWalking();
+                isWalking = false;
+            }
+        }
     }
 
     void TakeDamage(BattleCharacter attacker, int damage)
     {
+        if (isDead)
+        {
+            return;
+        }
         currentHP = Mathf.Clamp(currentHP - damage, 0, maxHP);
         if (currentHP <= 0)
         {
             Die();
+            return;
+        }
+        takeDamageSoundSource.Play();
+        //todo change later
+        if (target == null)
+        {
+            target = attacker;
         }
     }
 
@@ -84,26 +119,30 @@ public class BattleCharacter : MonoBehaviour
         {
             return;
         }
-
+        deathSoundSource.Play();
         isDead = true;
         Destroy(gameObject);
     }
     void Attack(BattleCharacter target)
     {
+        if (isDead)
+        {
+            return;
+        }
         attackSoundSource.Play();
         target.TakeDamage(this, AttackValue);
     }
 
     public void Heal()
     {
-        currentHP = Mathf.Clamp(currentHP + 10, 0, maxHP);
+        currentHP = Mathf.Clamp(currentHP + 50, 0, maxHP);
     }
     
     public int AttackValue
     {
         get
         {
-            return 10;
+            return attackValue;
         }
     }
 

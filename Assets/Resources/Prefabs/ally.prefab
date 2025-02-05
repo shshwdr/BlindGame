@@ -50,8 +50,16 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 5878653679762575543, guid: 6fc492aba26e62d49b46e3892b3246d3, type: 3}
       propertyPath: m_Name
-      value: battleCharacter
+      value: ally
       objectReference: {fileID: 0}
+    - target: {fileID: 7318783456706280831, guid: 6fc492aba26e62d49b46e3892b3246d3, type: 3}
+      propertyPath: m_audioClip
+      value: 
+      objectReference: {fileID: 8300000, guid: 152eaac5aeb37c944a4d27583cf4ee4a, type: 3}
+    - target: {fileID: 7802439924171279730, guid: 6fc492aba26e62d49b46e3892b3246d3, type: 3}
+      propertyPath: m_Materials.Array.data[0]
+      value: 
+      objectReference: {fileID: 2100000, guid: f63244ee6e290e741868eb2ad1396dba, type: 2}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []

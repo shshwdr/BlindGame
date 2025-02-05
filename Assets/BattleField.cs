@@ -5,11 +5,12 @@ using UnityEngine;
 public class BattleField : Singleton<BattleField>
 {
     private float spawnTimer;
-    private float spawnTime = 5f;
+    private float spawnTime = 10f;
 
     public List<BattleCharacter> enemies;
     public List<BattleCharacter> allies;
-    float AxisToDegree(int axis)
+    public static int MaxAxis = 3;
+    static public float AxisToDegree(int axis)
     {
         return axis * 30;
     }

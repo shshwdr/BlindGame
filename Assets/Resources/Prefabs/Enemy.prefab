@@ -53,9 +53,25 @@ PrefabInstance:
       value: Enemy
       objectReference: {fileID: 0}
     - target: {fileID: 8016616193065015171, guid: 6fc492aba26e62d49b46e3892b3246d3, type: 3}
+      propertyPath: maxHP
+      value: 30
+      objectReference: {fileID: 0}
+    - target: {fileID: 8016616193065015171, guid: 6fc492aba26e62d49b46e3892b3246d3, type: 3}
       propertyPath: isEnmey
       value: 1
       objectReference: {fileID: 0}
+    - target: {fileID: 8016616193065015171, guid: 6fc492aba26e62d49b46e3892b3246d3, type: 3}
+      propertyPath: attackTime
+      value: 2.3
+      objectReference: {fileID: 0}
+    - target: {fileID: 8016616193065015171, guid: 6fc492aba26e62d49b46e3892b3246d3, type: 3}
+      propertyPath: attackValue
+      value: 5
+      objectReference: {fileID: 0}
+    - target: {fileID: 8424234322237516557, guid: 6fc492aba26e62d49b46e3892b3246d3, type: 3}
+      propertyPath: m_audioClip
+      value: 
+      objectReference: {fileID: 8300000, guid: dc9fde456fc78ab47ad0301a5ff60d31, type: 3}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects:
