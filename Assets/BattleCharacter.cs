@@ -1,6 +1,8 @@
 using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
+
 
 public class BattleCharacter : MonoBehaviour
 {
@@ -8,7 +10,10 @@ public class BattleCharacter : MonoBehaviour
 
     private float moveSpeed = 1;
 
+    private string identifier;
+
     public AudioSource moveSoundSource;
+    public AudioSource idleSoundSource;
     public AudioSource attackSoundSource;
     public AudioSource takeDamageSoundSource;
     public AudioSource deathSoundSource;
@@ -24,11 +29,37 @@ public class BattleCharacter : MonoBehaviour
     private bool isWalking = false;
     public int attackValue = 10;
 
+    public float attackRange = 1;
+    public float findEnemyRange = 5;
+
     public bool isDead = false;
+    
+    BattleCharacterSound sound;
+    private bool isSpawnSoundFinished = false;
+
+    public  int currentAxis = 0;
+    
+    public void Init(string id,int axis)
+    {
+        identifier = id;
+        currentAxis = axis;
+        sound = SoundLoadManager.Instance.enemySoundDict.GetValueOrDefault(id);
+        if (sound!=null)
+        {
+            deathSoundSource.clip = sound.deathClip;
+            spawnSoundSource.clip = sound.spawnClip;
+            idleSoundSource.clip = sound.idleClip;
+            moveSoundSource.clip = sound.moveClip;
+        }
+        
+        spawnSoundSource.Play();
+
+    }
     // Start is called before the first frame update
     void Start()
     {
         currentHP = maxHP;
+        
     }
 
     // Update is called once per frame
@@ -39,19 +70,50 @@ public class BattleCharacter : MonoBehaviour
             return;
         }
 
+        if (!isSpawnSoundFinished)
+        {
+            if (!spawnSoundSource.isPlaying)
+            {
+                isSpawnSoundFinished = true;
+                if (!isWalking)
+                {
+                    StopWalking();
+                }
+            }
+        }
+
         speedupTimer -= Time.deltaTime;
         if (!isEnmey)
         {
             if (target == null)
             {
-                target = BattleField.Instance.enemies.RandomItem();
+                bool found = false;
+                foreach (var enemy in BattleField.Instance.enemies)
+                {
+                    var dir = enemy.transform.position - transform.position;
+                    var distance = dir.magnitude;
+                    if (distance < attackRange * 1.5f)
+                    {
+                        target = enemy;
+                        found = true;
+                    }
+                }
+
+                if (!found)
+                {
+                    target = BattleField.Instance.enemies.RandomItem();
+                }
+                if (target != null)
+                {
+                    currentAxis = target.currentAxis;
+                }
             }
             
             if (target != null)
             {
                 var dir = target.transform.position - transform.position;
                 var distance = dir.magnitude;
-                if (distance > 1)
+                if (distance > attackRange)
                 {
                     transform.position += dir.normalized * moveSpeed * Time.deltaTime;
                     if (!isWalking)
@@ -78,20 +140,65 @@ public class BattleCharacter : MonoBehaviour
         }
         else
         {
-            if (target)
+            
+            
+            if (target && target.currentAxis == currentAxis)
             {
-                
-                if (attackTimer <= 0)
+                var dir = target.transform.position - transform.position;
+                var distance = dir.magnitude;
+                if (distance < attackRange)
                 {
-                    attackTimer = attackTime;
-                    Attack(target);
+                    if (attackTimer <= 0)
+                    {
+                        attackTimer = attackTime;
+                        Attack(target);
+                    }
+                    else
+                    {
+                        attackTimer -= Time.deltaTime;
+                    }
+
+                    StopWalking();
+                    isWalking = false;
                 }
                 else
                 {
-                    attackTimer -= Time.deltaTime;
+                    var rayDir = transform.position.normalized;
+                    float targetProjectedDistance = Vector2.Dot(dir, rayDir);
+                    if (targetProjectedDistance > 0)
+                    {
+                            transform.position += rayDir * moveSpeed * Time.deltaTime;
+                    }
+                    else
+                    {
+                        
+                        transform.position -= rayDir * moveSpeed * Time.deltaTime;
+                    }
+                    if (!isWalking)
+                    {
+                        StartWalking();
+                    }
+                    isWalking = true;
                 }
-                StopWalking();
-                isWalking = false;
+            }
+            else
+            {
+                target = null;
+                foreach (var enemy in BattleField.Instance.allies)
+                {
+                    var dir = enemy.transform.position - transform.position;
+                    var distance = dir.magnitude;
+                    if (distance < findEnemyRange && enemy.currentAxis == currentAxis)
+                    {
+                        target = enemy;
+                    }
+                }
+                if (target == null)
+                {
+                    
+                    StopWalking();
+                    isWalking = false;
+                }
             }
         }
     }
@@ -108,7 +215,14 @@ public class BattleCharacter : MonoBehaviour
             Die();
             return;
         }
-        takeDamageSoundSource.Play();
+        if (sound!=null)
+        {
+            takeDamageSoundSource.PlayOneShot(sound.hurtClips.RandomItem());
+        }
+        else
+        {
+            takeDamageSoundSource.Play();
+        }
         //todo change later
         if (target == null)
         {
@@ -122,6 +236,18 @@ public class BattleCharacter : MonoBehaviour
         {
             return;
         }
+
+        if (isEnmey)
+        {
+            BattleField.Instance.enemies.Remove(this);
+        }
+        else
+        {
+            BattleField.Instance.allies.Remove(this);
+        }
+
+        deathSoundSource.transform.parent = transform.parent;
+        Destroy(deathSoundSource.gameObject,1);
         deathSoundSource.Play();
         isDead = true;
         Destroy(gameObject);
@@ -132,7 +258,15 @@ public class BattleCharacter : MonoBehaviour
         {
             return;
         }
-        attackSoundSource.Play();
+
+        if (sound!=null)
+        {
+            attackSoundSource.PlayOneShot(sound.attackClips.RandomItem());
+        }
+        else
+        {
+            attackSoundSource.Play();
+        }
         target.TakeDamage(this, AttackValue);
     }
 
@@ -173,10 +307,13 @@ public class BattleCharacter : MonoBehaviour
 
     void StartWalking()
     {
+        idleSoundSource.Stop();
         moveSoundSource.Play();
     }
     void StopWalking()
     {
+        
+        idleSoundSource.Play();
         moveSoundSource.Stop();
     }
 }

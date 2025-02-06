@@ -5,7 +5,7 @@ using UnityEngine;
 public class BattleField : Singleton<BattleField>
 {
     private float spawnTimer;
-    private float spawnTime = 10f;
+    public float spawnTime = 10f;
 
     public List<BattleCharacter> enemies;
     public List<BattleCharacter> allies;
@@ -41,9 +41,11 @@ public class BattleField : Singleton<BattleField>
          {
              spawnTimer = spawnTime;
 
-             var position = GetLocation(Random.Range(-3, 4), 10);
+             int axis = Random.Range(-3, 4);
+             var position = GetLocation(axis, 10);
              
              var go =Instantiate(Resources.Load<GameObject>("Prefabs/Enemy"), position, Quaternion.identity);
+             go.GetComponent<BattleCharacter>().Init("goblin",axis);
                enemies.Add(go.GetComponent<BattleCharacter>());
          }
     }
