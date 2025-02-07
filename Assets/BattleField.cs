@@ -10,11 +10,13 @@ public class BattleField : Singleton<BattleField>
     public List<BattleCharacter> enemies;
     public List<BattleCharacter> allies;
     public static int MaxAxis = 3;
+
+    public bool isStart = false;
     static public float AxisToDegree(int axis)
     {
         return axis * 30;
     }
-    public Vector3 GetLocation(int axis, float distance)
+    public static Vector3 GetLocation(int axis, float distance)
     {
         // Convert degree to radians
         float radians = AxisToDegree(axis) * Mathf.Deg2Rad;
@@ -26,7 +28,11 @@ public class BattleField : Singleton<BattleField>
         // Return the position with y set to 0 (2D plane)
         return new Vector3(x, 0, z);
     }
-    
+
+    public void StartBattle()
+    {
+        isStart = true;
+    }
     // Start is called before the first frame update
     void Start()
     {
@@ -36,6 +42,10 @@ public class BattleField : Singleton<BattleField>
     // Update is called once per frame
     void Update()
     {
+        if (!isStart)
+        {
+            return;
+        }
         spawnTimer -= Time.deltaTime;
          if (spawnTimer <= 0)
          {
@@ -47,6 +57,15 @@ public class BattleField : Singleton<BattleField>
              var go =Instantiate(Resources.Load<GameObject>("Prefabs/Enemy"), position, Quaternion.identity);
              go.GetComponent<BattleCharacter>().Init("goblin",axis);
                enemies.Add(go.GetComponent<BattleCharacter>());
+         }
+
+         foreach (var ally in allies)
+         {
+             ally.UpdateBattle(Time.deltaTime);
+         }
+         foreach (var ally in enemies)
+         {
+             ally.UpdateBattle(Time.deltaTime);
          }
     }
 }

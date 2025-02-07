@@ -1,18 +1,138 @@
 using System.Collections;
 using System.Collections.Generic;
+using TMPro;
 using UnityEngine;
 
-public class DialogueManager : MonoBehaviour
+public class DialogueManager : Singleton<DialogueManager>
 {
-    // Start is called before the first frame update
-    void Start()
+    public TMP_Text dialogueText;
+    public AudioSource dialogueSource;
+    public BattlePlayer player;
+    public Dictionary<string, BattleCharacter> allies = new Dictionary<string, BattleCharacter>();
+    public void Init()
     {
-        
+        foreach (var character in FindObjectsOfType<BattleCharacter>(true))
+        {
+            allies[character.name] = character;
+        }
     }
 
-    // Update is called once per frame
-    void Update()
+    public void StartDialogue(string dialogueName)
     {
+        StartCoroutine(PlayDialogue(CSVLoader.Instance.dialogueInfoDict[dialogueName]));
+    }
+
+    bool isStopped()
+    {
+        var stopped = !dialogueSource.isPlaying || interrupt;
         
+        return stopped;
+    }
+
+    private string waitingKey = "";
+    private bool getWaitingKey = false;
+    private bool canInterrupt = false;
+    private bool interrupt = false;
+    void SetWaitingKey(string key)
+    {
+        waitingKey = key;
+        getWaitingKey = false;
+        
+        
+    }
+    public void GetInput(string key)
+    {
+        bool succeed = false;
+        if (key == waitingKey)
+        {
+            succeed = true;
+        }
+
+        if (key == "rotate" && waitingKey == "face")
+        {
+            if (player.currentAxis == allies["hero1"].currentAxis)
+            {
+                succeed = true;
+            }
+        }
+
+        if (succeed)
+        {
+            
+            getWaitingKey = true;
+
+            if (canInterrupt)
+            {
+                interrupt = true;
+            }
+        }
+    }
+
+    void DoEvent(DialogueInfo info)
+    {
+        switch (info.otherEvent[0])
+        {
+            case "move":
+                var playerAxis = player.currentAxis;
+                var targetAxis = playerAxis+3;
+                if (targetAxis > 3)
+                {
+                    targetAxis -= 6;
+                }
+                StartCoroutine(allies[info.otherEvent[1]].MoveTo(targetAxis,5,3f));
+                break;
+        }
+    }
+    IEnumerator PlayDialogue(DialogueInfo info)
+    {
+        dialogueSource = allies[info.speaker].talkSoundSource;
+        dialogueSource.clip = Resources.Load<AudioClip>("audio/dialogue/" + info.id);
+        dialogueSource.Play();
+        dialogueText.text = info.text;
+        interrupt = false;
+        SetWaitingKey(info.wait);
+        canInterrupt = false;
+
+        DoEvent(info);
+        
+        while (true)
+        {
+            
+            yield return new WaitUntil(isStopped);
+
+            if (info.wait != null && info.wait.Length > 0 &&getWaitingKey == false)
+            {
+                canInterrupt = true;
+                yield return new WaitForSeconds(1);
+                dialogueSource.Play();
+            }
+            else
+            {
+                break;
+            }
+        }
+
+        SetWaitingKey("");
+
+        if (info.eventAfter!=null &&info.eventAfter.Count>0)
+        {
+            switch (info.eventAfter[0])
+            {
+                case "startBattle":
+                    BattleField.Instance.StartBattle();
+                    break;
+            }
+        }
+        
+        info = info.nextDialogue;
+        if (info == null)
+        {
+            dialogueText.text = "";
+            Debug.Log("finished");
+        }
+        else
+        {
+            yield return StartCoroutine(PlayDialogue(info));
+        }
     }
 }

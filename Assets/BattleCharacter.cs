@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
+using DG.Tweening;
 using UnityEngine;
 
 
@@ -18,6 +19,7 @@ public class BattleCharacter : MonoBehaviour
     public AudioSource takeDamageSoundSource;
     public AudioSource deathSoundSource;
     public AudioSource spawnSoundSource;
+    public AudioSource talkSoundSource;
 
     private BattleCharacter target;
 
@@ -63,7 +65,7 @@ public class BattleCharacter : MonoBehaviour
     }
 
     // Update is called once per frame
-    void Update()
+    public void UpdateBattle(float time)
     {
         if (isDead)
         {
@@ -82,7 +84,7 @@ public class BattleCharacter : MonoBehaviour
             }
         }
 
-        speedupTimer -= Time.deltaTime;
+        speedupTimer -= time;
         if (!isEnmey)
         {
             if (target == null)
@@ -115,7 +117,7 @@ public class BattleCharacter : MonoBehaviour
                 var distance = dir.magnitude;
                 if (distance > attackRange)
                 {
-                    transform.position += dir.normalized * moveSpeed * Time.deltaTime;
+                    transform.position += dir.normalized * moveSpeed * time;
                     if (!isWalking)
                     {
                         StartWalking();
@@ -131,7 +133,7 @@ public class BattleCharacter : MonoBehaviour
                      }
                      else
                      {
-                         attackTimer -= Time.deltaTime;
+                         attackTimer -= time;
                      }
                     StopWalking();
                     isWalking = false;
@@ -201,6 +203,17 @@ public class BattleCharacter : MonoBehaviour
                 }
             }
         }
+    }
+
+    public IEnumerator MoveTo(int axis, float distance,float time)
+    {
+        var target = BattleField.GetLocation(axis, distance);
+        currentAxis = axis;
+        transform.DOMove(target, time);
+        StartWalking();
+        yield return new WaitForSeconds(time);
+        
+        StopWalking();
     }
 
     void TakeDamage(BattleCharacter attacker, int damage)

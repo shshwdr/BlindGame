@@ -1,9 +1,9 @@
-﻿id,text,speaker,isLoop,otherEvent
-1,"Are you alright, Pell? You've been asleep for days!",hero1,,sfx:heroMove
-2,"So you can't see anything, aye? Another gift from the Awakening. Just be grateful you have both feet.",hero1,,
-3,"You lot look in need of a good healer. Lucky for you, here I am!",hero1,,
-4,Let's see what you can do.,hero1,,
-5,Remember how to rotate? Press the left or right arrow key to rotate yourself.,hero1,1,wait:rotate
-6,You won't be able to hear me unless you face me. Rotate until you hear my voice louder!,hero1,1,wait:face
-7,"Good. The better you can hear me, the closer you are to finding my location.",hero1,,
-8,Press the 1 key to cast a healing spell.,hero1,1,wait:heal
+﻿id,text,speaker,isLoop,otherEvent,wait,isEnd,eventAfter
+dialogue_1_1,"Are you alright, Pell? You've been asleep for days!",hero1,1,,,,
+dialogue_1_2,"So you can't see anything, aye? Another gift from the Awakening. Just be grateful you have both feet.",hero1,1,,,,
+dialogue_1_3,"You lot look in need of a good healer. Lucky for you, here I am!",hero1,,,,,
+dialogue_1_4,Let's see what you can do.,hero1,,,,,
+dialogue_1_5,Remember how to rotate? Press the left or right arrow key to rotate yourself.,hero1,1,,rotate,,
+dialogue_1_6,You won't be able to hear me unless you face me. Rotate until you hear my voice louder!,hero1,1,move|hero1|first,face,,
+dialogue_1_7,"Good. The better you can hear me, the closer you are to finding my location.",hero1,,,,,
+dialogue_1_8,Press the 1 key to cast a healing spell.,hero1,1,move|hero1|second,heal,1,startBattle

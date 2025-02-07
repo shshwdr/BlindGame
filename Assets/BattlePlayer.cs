@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class BattlePlayer : MonoBehaviour
 {
-    private int currentAxis = 0;
+    public int currentAxis = 0;
     public AudioSource soundSource;
 
     public AudioClip healClip;
@@ -58,6 +58,7 @@ public class BattlePlayer : MonoBehaviour
             {
                 soundSource.PlayOneShot(healClip);
                 target.Heal();
+                DialogueManager.Instance.GetInput("heal");
             }
         }
         
@@ -109,7 +110,7 @@ public class BattlePlayer : MonoBehaviour
         soundSource.PlayOneShot(rotateClip);
         var degree = BattleField.AxisToDegree(currentAxis);
         transform.rotation = Quaternion.Euler(0, degree, 0);
-
+        DialogueManager.Instance.GetInput("rotate");
         //transform.RotateAround(Vector3.zero, Vector3.up, degree);
     }
 }
