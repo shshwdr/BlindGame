@@ -1,5 +1,5 @@
 ﻿id,text,speaker,isLoop,otherEvent,wait,isEnd,eventAfter
-dialogue_1_1,"Are you alright, Pell? You've been asleep for days!",hero1,1,,,,
+dialogue_1_1,"Are you alright, Pell? You've been asleep for days!",hero1,1,,,1,startBattle
 dialogue_1_2,"So you can't see anything, aye? Another gift from the Awakening. Just be grateful you have both feet.",hero1,1,,,,
 dialogue_1_3,"You lot look in need of a good healer. Lucky for you, here I am!",hero1,,,,,
 dialogue_1_4,Let's see what you can do.,hero1,,,,,
