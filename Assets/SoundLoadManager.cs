@@ -11,6 +11,7 @@ public class BattleCharacterSound
     public AudioClip deathClip;
     public AudioClip spawnClip;
     public AudioClip idleClip;
+    public Dictionary<string, List<AudioClip>> others;
 }
 public class SoundLoadManager : Singleton<SoundLoadManager>
 {
@@ -57,14 +58,29 @@ public class SoundLoadManager : Singleton<SoundLoadManager>
             characterSound.deathClip = deaths[0];
         }
         enemySoundDict.Add(id, characterSound);
+        characterSound.others = new Dictionary<string, List<AudioClip>>();
+        var others = allClips.Where(clip => !clip.name.StartsWith("Attack") && !clip.name.StartsWith("Hurt") && !clip.name.StartsWith("Spawn") && !clip.name.StartsWith("Idle") && !clip.name.StartsWith("Die") && !clip.name.StartsWith("Run")).ToList();
+        foreach (var clip in others)
+        {
+            var name = clip.name.Split('_');
+            var key = name[0];
+            if (!characterSound.others.ContainsKey(key))
+            { 
+                characterSound.others.Add(key, new List<AudioClip>());  
+            }
+            characterSound.others[key].Add(clip);
+        }
         
         enemySoundDict[id] = characterSound;
+        
+        
     }
     // Start is called before the first frame update
     void Awake()
     {
         
         FindMusicFiles("goblin");
+        FindMusicFiles("hero1");
     }
 
     // Update is called once per frame

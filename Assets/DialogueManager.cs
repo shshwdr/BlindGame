@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using TMPro;
@@ -27,6 +28,14 @@ public class DialogueManager : Singleton<DialogueManager>
         var stopped = !dialogueSource.isPlaying || interrupt;
         
         return stopped;
+    }
+
+    private void Update()
+    {
+        if (Input.GetKeyDown(KeyCode.S))
+        {
+            FinishDialogue();
+        }
     }
 
     private string waitingKey = "";
@@ -134,5 +143,15 @@ public class DialogueManager : Singleton<DialogueManager>
         {
             yield return StartCoroutine(PlayDialogue(info));
         }
+    }
+
+    void FinishDialogue()
+    {
+        
+        dialogueText.text = "";
+        dialogueSource.Stop();
+        
+        StopAllCoroutines();
+        BattleField.Instance.StartBattle();
     }
 }

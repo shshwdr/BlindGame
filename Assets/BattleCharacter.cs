@@ -39,8 +39,30 @@ public class BattleCharacter : MonoBehaviour
     BattleCharacterSound sound;
     private bool isSpawnSoundFinished = false;
 
+    private Dictionary<string, float> timers = new Dictionary<string, float>();
+
     public  int currentAxis = 0;
-    
+
+    public bool isSpeaking()
+    {
+        return talkSoundSource.isPlaying;
+    }
+    public void Speak(string key,bool isInterrupt = false)
+    {
+        if (!isInterrupt && isSpeaking())
+        {
+            return;
+        }
+        if (sound != null)
+        {
+            var clips = sound.others.GetValueOrDefault(key);
+            if (clips!=null &&clips.Count > 0)
+            {
+                talkSoundSource.clip = clips.RandomItem();
+                talkSoundSource.Play();
+            }
+        }
+    }
     public void Init(string id,int axis)
     {
         identifier = id;
@@ -70,6 +92,18 @@ public class BattleCharacter : MonoBehaviour
         if (isDead)
         {
             return;
+        }
+
+        foreach (var timer in timers.ToList())
+        {
+            if (timer.Value <= 0)
+            {
+                timers.Remove(timer.Key);
+            }
+            else
+            {
+                timers[timer.Key] -= time;
+            }
         }
 
         if (!isSpawnSoundFinished)
@@ -216,6 +250,18 @@ public class BattleCharacter : MonoBehaviour
         StopWalking();
     }
 
+    public void KilledOneEnemy()
+    {
+        if (Random.Range(0, 100) < 40)
+        {
+            Speak("KillEnemy");
+        }
+
+        if (!isEnmey)
+        {
+            BattleField.Instance.KillEnemy();
+        }
+    }
     void TakeDamage(BattleCharacter attacker, int damage)
     {
         if (isDead)
@@ -225,6 +271,7 @@ public class BattleCharacter : MonoBehaviour
         currentHP = Mathf.Clamp(currentHP - damage, 0, maxHP);
         if (currentHP <= 0)
         {
+            attacker.KilledOneEnemy();
             Die();
             return;
         }
@@ -241,6 +288,23 @@ public class BattleCharacter : MonoBehaviour
         {
             target = attacker;
         }
+
+        if (HPPercent() < 0.3f && !timers.ContainsKey("LowHP"))
+        {
+            Speak("LowHP");
+            timers.Add("LowHP", 5f);
+        }
+        else if (HPPercent() < 0.5f && !timers.ContainsKey("MiddleHP"))
+        {
+            
+            Speak("MiddleHP");
+            timers.Add("MiddleHP", 5f);
+        }
+    }
+
+    float HPPercent()
+    {
+        return currentHP / (float)maxHP;
     }
 
     public void Die()
@@ -261,9 +325,18 @@ public class BattleCharacter : MonoBehaviour
 
         deathSoundSource.transform.parent = transform.parent;
         Destroy(deathSoundSource.gameObject,1);
+        
+        //talkSoundSource.transform.parent = transform.parent;
+       // Destroy(talkSoundSource.gameObject,1);
+        Speak("LowHP");
+        
         deathSoundSource.Play();
         isDead = true;
-        Destroy(gameObject);
+        if (isEnmey)
+        {
+            
+            Destroy(gameObject);
+        }
     }
     void Attack(BattleCharacter target)
     {
@@ -286,6 +359,8 @@ public class BattleCharacter : MonoBehaviour
     public void Heal()
     {
         currentHP = Mathf.Clamp(currentHP + 50, 0, maxHP);
+        
+        Speak("SpellHealed");
     }
 
     private float speedupTime = 5;
@@ -294,6 +369,8 @@ public class BattleCharacter : MonoBehaviour
     public void Speedup()
     {
         speedupTimer = speedupTime;
+        
+        Speak("SpellSpeedUp");
     }
 
     bool isSpeedUp()
