@@ -16,6 +16,8 @@ public class BattleField : Singleton<BattleField>
     private int enemyKilled = 0;
 
     public bool isStart = false;
+
+    private FMOD.Studio.EventInstance battlemusic;
     static public float AxisToDegree(int axis)
     {
         return axis * 30;
@@ -40,6 +42,9 @@ public class BattleField : Singleton<BattleField>
 
         allies[0].Speak("BattleBegin",true);
         spawnTime = 5;
+
+        battlemusic = FMODUnity.RuntimeManager.CreateInstance("event:/Music/mus_battle_1");
+        battlemusic.start();
     }
     // Start is called before the first frame update
     void Start()
