@@ -9,7 +9,7 @@ public class BattleCharacter : MonoBehaviour
 {
     public bool isEnmey;
 
-    private float moveSpeed = 1;
+    public float moveSpeed = 1;
 
     private string identifier;
 
@@ -137,7 +137,12 @@ public class BattleCharacter : MonoBehaviour
 
                 if (!found)
                 {
-                    target = BattleField.Instance.enemies.RandomItem();
+
+                    if (BattleField.Instance.enemies.Count > 0)
+                    {
+                        
+                        target = BattleField.Instance.enemies.RandomItem();
+                    }
                 }
                 if (target != null)
                 {
@@ -201,11 +206,11 @@ public class BattleCharacter : MonoBehaviour
                 {
                     var rayDir = transform.position.normalized;
                     float targetProjectedDistance = Vector2.Dot(dir, rayDir);
-                    if (targetProjectedDistance > 0)
+                    if (targetProjectedDistance > 0.1f)
                     {
                             transform.position += rayDir * moveSpeed * Time.deltaTime;
                     }
-                    else
+                    else if(targetProjectedDistance<-0.1f)
                     {
                         
                         transform.position -= rayDir * moveSpeed * Time.deltaTime;

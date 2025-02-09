@@ -24,30 +24,31 @@ public class BattlePlayer : MonoBehaviour
         if (Input.GetKeyDown(KeyCode.LeftArrow))
         {
             currentAxis -= 1;
-            if (currentAxis < -BattleField.MaxAxis)
+            if (currentAxis < 0)
             {
-                currentAxis = -BattleField.MaxAxis;
-                soundSource.PlayOneShot(cancelClip);
+                currentAxis = BattleField.MaxAxis;
             }
-            else
-            {
-                Rotate ();
-            }
+            Rotate ();
+            // if (currentAxis < -BattleField.MaxAxis)
+            // {
+            //     currentAxis = -BattleField.MaxAxis;
+            //     soundSource.PlayOneShot(cancelClip);
+            // }
+            // else
+            // {
+            //     Rotate ();
+            // }
         }
         else if (Input.GetKeyDown(KeyCode.RightArrow))
         {
             currentAxis += 1;
             
-            if (currentAxis > BattleField.MaxAxis)
+            if (currentAxis >BattleField.MaxAxis)
             {
-                currentAxis = BattleField.MaxAxis;
-                soundSource.PlayOneShot(cancelClip);
+                currentAxis = 0;
             }
-            else
-            {
-                
-                Rotate();
-            }
+            
+            Rotate ();
             
         }
         
@@ -86,19 +87,15 @@ public class BattlePlayer : MonoBehaviour
             // Calculate the angle between the player's forward direction and the target's direction
             float angle = Vector3.Angle(playerForward, directionToTarget);
 
-            // Check if the angle is within 30 degrees
-            if (angle <= 20f)
+            // Check if the angle is within 45 degrees
+            if (angle <= BattleField.RotateDegree*0.6f)
             {
                 return ally;
-                soundSource.PlayOneShot(healClip);
-                ally.Heal();
-                Debug.Log("The object is within 30 degrees in front of the player.");
-                break;
             }
             else
             {
                 soundSource.PlayOneShot(cancelClip);
-                Debug.Log("The object is outside the 30-degree angle.");
+                Debug.Log("The object is outside the 45-degree angle.");
             }
         }
 

@@ -84,16 +84,14 @@ public class DialogueManager : Singleton<DialogueManager>
             case "move":
                 var playerAxis = player.currentAxis;
                 var targetAxis = playerAxis+3;
-                if (targetAxis > 3)
-                {
-                    targetAxis -= 6;
-                }
+                
                 StartCoroutine(allies[info.otherEvent[1]].MoveTo(targetAxis,5,3f));
                 break;
         }
     }
     IEnumerator PlayDialogue(DialogueInfo info)
     {
+        currentInfo = info;
         dialogueSource = allies[info.speaker].talkSoundSource;
         dialogueSource.clip = Resources.Load<AudioClip>("audio/dialogue/" + info.id);
         dialogueSource.Play();
@@ -123,15 +121,7 @@ public class DialogueManager : Singleton<DialogueManager>
 
         SetWaitingKey("");
 
-        if (info.eventAfter!=null &&info.eventAfter.Count>0)
-        {
-            switch (info.eventAfter[0])
-            {
-                case "startBattle":
-                    BattleField.Instance.StartBattle();
-                    break;
-            }
-        }
+        DoAfterDialogueEvent(info);
         
         info = info.nextDialogue;
         if (info == null)
@@ -145,6 +135,20 @@ public class DialogueManager : Singleton<DialogueManager>
         }
     }
 
+    void DoAfterDialogueEvent(DialogueInfo info)
+    {
+        if (info.eventAfter!=null &&info.eventAfter.Count>0)
+        {
+            switch (info.eventAfter[0])
+            {
+                case "startBattle":
+                    BattleField.Instance.StartBattle(info.eventAfter[1]);
+                    break;
+            }
+        }
+    }
+    
+    private DialogueInfo currentInfo;
     void FinishDialogue()
     {
         
@@ -152,6 +156,16 @@ public class DialogueManager : Singleton<DialogueManager>
         dialogueSource.Stop();
         
         StopAllCoroutines();
-        BattleField.Instance.StartBattle();
+
+        while (currentInfo!=null)
+        {
+            
+            DoAfterDialogueEvent(currentInfo);
+            
+            currentInfo  = currentInfo.nextDialogue;
+        }
+
+            //BattleField.Instance.StartBattle();
+            currentInfo = null;
     }
 }

@@ -1,0 +1,2 @@
+﻿id,enemy,spawnTime,afterBattleEvent
+1,goblin|5,10,dialogue|dialogue_4_1

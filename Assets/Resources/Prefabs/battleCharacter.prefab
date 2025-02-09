@@ -115,6 +115,7 @@ GameObject:
   m_Component:
   - component: {fileID: 2045413943883490625}
   - component: {fileID: 8016616193065015171}
+  - component: {fileID: 1406251768907351900}
   m_Layer: 0
   m_Name: battleCharacter
   m_TagString: Untagged
@@ -158,6 +159,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   isEnmey: 0
+  moveSpeed: 1
   moveSoundSource: {fileID: 4042850039623125376}
   idleSoundSource: {fileID: 4250291134927954710}
   attackSoundSource: {fileID: 5648695306903756024}
@@ -172,6 +174,21 @@ MonoBehaviour:
   findEnemyRange: 5
   isDead: 0
   currentAxis: 0
+--- !u!114 &1406251768907351900
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5878653679762575543}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 8cbfff6198132db43b9743a8bed6f417, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  playerTransform: {fileID: 0}
+  minCutoff: 2000
+  maxCutoff: 22000
 --- !u!1001 &584861843174306131
 PrefabInstance:
   m_ObjectHideFlags: 0

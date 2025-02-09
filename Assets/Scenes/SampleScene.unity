@@ -786,6 +786,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   spawnTime: 10
+  battleId: 
   enemies: []
   allies:
   - {fileID: 1874860673}
@@ -798,6 +799,10 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 2130461032861046396, guid: 4b32827f53ea1f24192fbe806ebf12ea, type: 3}
+      propertyPath: moveSpeed
+      value: 1.5
+      objectReference: {fileID: 0}
     - target: {fileID: 2541572330945827144, guid: 4b32827f53ea1f24192fbe806ebf12ea, type: 3}
       propertyPath: m_Name
       value: hero1

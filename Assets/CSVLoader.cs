@@ -16,10 +16,20 @@ public class DialogueInfo
     public DialogueInfo nextDialogue;
 
 }
+
+public class BattleInfo
+{
+    public string id;
+    public List<string> enemy;
+    public float spawnTime;
+    public List<string> afterBattleEvent;
+
+}
 public class CSVLoader : Singleton<CSVLoader>
 {
     
     public Dictionary<string, DialogueInfo> dialogueInfoDict = new Dictionary<string, DialogueInfo>();
+    public Dictionary<string, BattleInfo> battleInfoDict = new Dictionary<string, BattleInfo>();
 
     public void Init()
     {
@@ -35,6 +45,11 @@ public class CSVLoader : Singleton<CSVLoader>
             }
 
             lastInfo = info;
+        }
+        var battleInfos = CsvUtil.LoadObjects<BattleInfo>(GetFileNameWithABTest("battle"));
+        foreach (var info in battleInfos)
+        {
+            battleInfoDict[info.id] = info;
         }
     }
     string GetFileNameWithABTest(string name)
