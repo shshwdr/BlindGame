@@ -84,6 +84,7 @@ public class DialogueManager : Singleton<DialogueManager>
             case "move":
                 var playerAxis = player.currentAxis;
                 var targetAxis = playerAxis+3;
+                targetAxis = targetAxis% BattleField.MaxAxis;
                 
                 StartCoroutine(allies[info.otherEvent[1]].MoveTo(targetAxis,5,3f));
                 break;

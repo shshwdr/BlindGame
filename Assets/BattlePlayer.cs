@@ -15,7 +15,8 @@ public class BattlePlayer : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        
+        healClip = Resources.Load<AudioClip>("sfx/spell/heal");
+        speedupClip = Resources.Load<AudioClip>("sfx/spell/speedup");
     }
 
     // Update is called once per frame

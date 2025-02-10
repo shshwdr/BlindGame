@@ -115,7 +115,6 @@ GameObject:
   m_Component:
   - component: {fileID: 2045413943883490625}
   - component: {fileID: 8016616193065015171}
-  - component: {fileID: 1406251768907351900}
   m_Layer: 0
   m_Name: battleCharacter
   m_TagString: Untagged
@@ -174,21 +173,6 @@ MonoBehaviour:
   findEnemyRange: 5
   isDead: 0
   currentAxis: 0
---- !u!114 &1406251768907351900
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 5878653679762575543}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 8cbfff6198132db43b9743a8bed6f417, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  playerTransform: {fileID: 0}
-  minCutoff: 2000
-  maxCutoff: 22000
 --- !u!1001 &584861843174306131
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -197,6 +181,22 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 2045413943883490625}
     m_Modifications:
+    - target: {fileID: 3460679929899563219, guid: 118a79cd868062a49a1b8f62086a0fc1, type: 3}
+      propertyPath: Loop
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 3460679929899563219, guid: 118a79cd868062a49a1b8f62086a0fc1, type: 3}
+      propertyPath: Spatialize
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 3460679929899563219, guid: 118a79cd868062a49a1b8f62086a0fc1, type: 3}
+      propertyPath: BypassReverbZones
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 3460679929899563219, guid: 118a79cd868062a49a1b8f62086a0fc1, type: 3}
+      propertyPath: SpatializePostEffects
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 4295456663513374087, guid: 118a79cd868062a49a1b8f62086a0fc1, type: 3}
       propertyPath: m_Name
       value: moveSound
@@ -264,6 +264,22 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 2045413943883490625}
     m_Modifications:
+    - target: {fileID: 3460679929899563219, guid: 118a79cd868062a49a1b8f62086a0fc1, type: 3}
+      propertyPath: Loop
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 3460679929899563219, guid: 118a79cd868062a49a1b8f62086a0fc1, type: 3}
+      propertyPath: Spatialize
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 3460679929899563219, guid: 118a79cd868062a49a1b8f62086a0fc1, type: 3}
+      propertyPath: BypassReverbZones
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 3460679929899563219, guid: 118a79cd868062a49a1b8f62086a0fc1, type: 3}
+      propertyPath: SpatializePostEffects
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 4295456663513374087, guid: 118a79cd868062a49a1b8f62086a0fc1, type: 3}
       propertyPath: m_Name
       value: idleSound
@@ -336,12 +352,24 @@ PrefabInstance:
       value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 3460679929899563219, guid: 118a79cd868062a49a1b8f62086a0fc1, type: 3}
+      propertyPath: Spatialize
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 3460679929899563219, guid: 118a79cd868062a49a1b8f62086a0fc1, type: 3}
       propertyPath: m_audioClip
       value: 
       objectReference: {fileID: 0}
     - target: {fileID: 3460679929899563219, guid: 118a79cd868062a49a1b8f62086a0fc1, type: 3}
       propertyPath: m_PlayOnAwake
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3460679929899563219, guid: 118a79cd868062a49a1b8f62086a0fc1, type: 3}
+      propertyPath: BypassReverbZones
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 3460679929899563219, guid: 118a79cd868062a49a1b8f62086a0fc1, type: 3}
+      propertyPath: SpatializePostEffects
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 4295456663513374087, guid: 118a79cd868062a49a1b8f62086a0fc1, type: 3}
       propertyPath: m_Name
@@ -411,16 +439,8 @@ PrefabInstance:
     m_TransformParent: {fileID: 2045413943883490625}
     m_Modifications:
     - target: {fileID: 3460679929899563219, guid: 118a79cd868062a49a1b8f62086a0fc1, type: 3}
-      propertyPath: Loop
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 3460679929899563219, guid: 118a79cd868062a49a1b8f62086a0fc1, type: 3}
       propertyPath: m_audioClip
       value: 
-      objectReference: {fileID: 0}
-    - target: {fileID: 3460679929899563219, guid: 118a79cd868062a49a1b8f62086a0fc1, type: 3}
-      propertyPath: m_PlayOnAwake
-      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 4295456663513374087, guid: 118a79cd868062a49a1b8f62086a0fc1, type: 3}
       propertyPath: m_Name
@@ -494,12 +514,24 @@ PrefabInstance:
       value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 3460679929899563219, guid: 118a79cd868062a49a1b8f62086a0fc1, type: 3}
+      propertyPath: Spatialize
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 3460679929899563219, guid: 118a79cd868062a49a1b8f62086a0fc1, type: 3}
       propertyPath: m_audioClip
       value: 
       objectReference: {fileID: 0}
     - target: {fileID: 3460679929899563219, guid: 118a79cd868062a49a1b8f62086a0fc1, type: 3}
       propertyPath: m_PlayOnAwake
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3460679929899563219, guid: 118a79cd868062a49a1b8f62086a0fc1, type: 3}
+      propertyPath: BypassReverbZones
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 3460679929899563219, guid: 118a79cd868062a49a1b8f62086a0fc1, type: 3}
+      propertyPath: SpatializePostEffects
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 4295456663513374087, guid: 118a79cd868062a49a1b8f62086a0fc1, type: 3}
       propertyPath: m_Name
@@ -573,12 +605,24 @@ PrefabInstance:
       value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 3460679929899563219, guid: 118a79cd868062a49a1b8f62086a0fc1, type: 3}
+      propertyPath: Spatialize
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 3460679929899563219, guid: 118a79cd868062a49a1b8f62086a0fc1, type: 3}
       propertyPath: m_audioClip
       value: 
       objectReference: {fileID: 0}
     - target: {fileID: 3460679929899563219, guid: 118a79cd868062a49a1b8f62086a0fc1, type: 3}
       propertyPath: m_PlayOnAwake
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3460679929899563219, guid: 118a79cd868062a49a1b8f62086a0fc1, type: 3}
+      propertyPath: BypassReverbZones
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 3460679929899563219, guid: 118a79cd868062a49a1b8f62086a0fc1, type: 3}
+      propertyPath: SpatializePostEffects
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 4295456663513374087, guid: 118a79cd868062a49a1b8f62086a0fc1, type: 3}
       propertyPath: m_Name
@@ -652,12 +696,24 @@ PrefabInstance:
       value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 3460679929899563219, guid: 118a79cd868062a49a1b8f62086a0fc1, type: 3}
+      propertyPath: Spatialize
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 3460679929899563219, guid: 118a79cd868062a49a1b8f62086a0fc1, type: 3}
       propertyPath: m_audioClip
       value: 
       objectReference: {fileID: 8300000, guid: bcb72b44c3295b147a717836af197966, type: 3}
     - target: {fileID: 3460679929899563219, guid: 118a79cd868062a49a1b8f62086a0fc1, type: 3}
       propertyPath: m_PlayOnAwake
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3460679929899563219, guid: 118a79cd868062a49a1b8f62086a0fc1, type: 3}
+      propertyPath: BypassReverbZones
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 3460679929899563219, guid: 118a79cd868062a49a1b8f62086a0fc1, type: 3}
+      propertyPath: SpatializePostEffects
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 4295456663513374087, guid: 118a79cd868062a49a1b8f62086a0fc1, type: 3}
       propertyPath: m_Name
