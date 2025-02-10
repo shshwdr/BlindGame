@@ -564,6 +564,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: hero2
       objectReference: {fileID: 0}
+    - target: {fileID: 2541572330945827144, guid: 6bfd5db898202f541a1d9bfd49f18be3, type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 7976600431737971902, guid: 6bfd5db898202f541a1d9bfd49f18be3, type: 3}
       propertyPath: m_LocalPosition.x
       value: 1.93
@@ -917,6 +921,8 @@ MonoBehaviour:
   spawnTime: 10
   battleId: 
   enemies: []
+  currentAllies:
+  - {fileID: 1874860673}
   allies:
   - {fileID: 1874860673}
   - {fileID: 822293376}

@@ -3,6 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using FMOD.Studio;
 using UnityEngine;
+using UnityEngine.Serialization;
 using Random = UnityEngine.Random;
 
 public class BattleField : Singleton<BattleField>
@@ -16,6 +17,7 @@ public class BattleField : Singleton<BattleField>
     public static float RotateDegree = 45;
 
     public List<BattleCharacter> enemies;
+    public List<BattleCharacter> currentAllies;
     public List<BattleCharacter> allies;
     public static int MaxAxis = 7;
 
@@ -27,6 +29,12 @@ public class BattleField : Singleton<BattleField>
 
     private FMOD.Studio.EventInstance battlemusic;
 
+    public void AddAlly(string key)
+    {
+        var ally = allies.Find(x => x.name == key);
+        ally.gameObject.SetActive(true);
+        currentAllies.Add(ally);
+    }
     private void Start()
     {
         
@@ -55,10 +63,12 @@ public class BattleField : Singleton<BattleField>
     {
         isStart = true;
           this.battleId = id;
-        allies[0].Init("hero1",allies[0].currentAxis);
-
-        allies[0].Speak("BattleBegin",true);
+        currentAllies[0].Init("hero1",currentAllies[0].currentAxis);
+var battleInfo = CSVLoader.Instance.battleInfoDict[id];
+        currentAllies[0].Speak("BattleBegin",true);
+        spawnTime = battleInfo.spawnTime;
         spawnTimer = 5;
+        goblinMaxNumber = int.Parse( battleInfo.enemy[1]);
         enemyKilled = 0;
         battlemusic.start();
         battlemusic.setVolume(currentVolumn);
@@ -69,9 +79,15 @@ public class BattleField : Singleton<BattleField>
     
     IEnumerator afterBattle()
     {
+
+        foreach (var enemy in enemies)
+        {
+            Destroy(enemy);
+        }
+        enemies.Clear();
         
         battlemusic.stop(STOP_MODE.ALLOWFADEOUT);
-        allies[0].Speak("BattleFinish",true);
+        currentAllies[0].Speak("BattleFinish",true);
         isStart = false;
         yield return new WaitForSeconds(5);
         DialogueManager.Instance.StartDialogue(CSVLoader.Instance.battleInfoDict[battleId].afterBattleEvent[1]);
@@ -81,16 +97,22 @@ public class BattleField : Singleton<BattleField>
         enemyKilled++;
         if (enemyKilled >= goblinMaxNumber)
         {
-            StartCoroutine(afterBattle());
+            WinBattle();
         }
         else if(enemyKilled>= goblinMaxNumber-1)
         {
-            allies[0].Speak("BattleOneLeft");
+            currentAllies[0].Speak("BattleOneLeft");
         }
         else if(enemyKilled>= goblinMaxNumber/2)
         {
-            allies[0].Speak("BattleMiddle");
+            currentAllies[0].Speak("BattleMiddle");
         }
+    }
+
+    public void WinBattle()
+    {
+        
+        StartCoroutine(afterBattle());
     }
     // Update is called once per frame
     void Update()
@@ -98,6 +120,11 @@ public class BattleField : Singleton<BattleField>
         if (!isStart)
         {
             return;
+        }
+        
+        if (Input.GetKeyDown(KeyCode.Backspace))
+        {
+            WinBattle();
         }
 
         if (Input.GetKeyDown(KeyCode.W))
@@ -130,8 +157,9 @@ public class BattleField : Singleton<BattleField>
 
          }
 
-         foreach (var ally in allies)
+         foreach (var ally in currentAllies)
          {
+             
              ally.UpdateBattle(Time.deltaTime);
          }
          foreach (var ally in enemies)
@@ -154,7 +182,7 @@ public class BattleField : Singleton<BattleField>
         if (Random.Range(0, 100) < 40)
         {
                    
-            allies[0].Speak("NewGoblinSpawn");
+            currentAllies[0].Speak("NewGoblinSpawn");
         }
         
         

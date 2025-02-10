@@ -78,7 +78,7 @@ public class BattlePlayer : MonoBehaviour
 
     BattleCharacter findCharacterInFront()
     {
-        foreach (var ally in BattleField.Instance.allies)
+        foreach (var ally in BattleField.Instance.currentAllies)
         {
             Vector3 playerForward = transform.forward;
 

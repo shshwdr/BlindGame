@@ -145,6 +145,9 @@ public class DialogueManager : Singleton<DialogueManager>
                 case "startBattle":
                     BattleField.Instance.StartBattle(info.eventAfter[1]);
                     break;
+                case "addAlly":
+                    BattleField.Instance.AddAlly(info.eventAfter[1]);
+                    break;
             }
         }
     }

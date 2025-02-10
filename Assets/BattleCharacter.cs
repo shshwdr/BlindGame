@@ -266,7 +266,7 @@ public class BattleCharacter : MonoBehaviour
             else
             {
                 target = null;
-                foreach (var enemy in BattleField.Instance.allies)
+                foreach (var enemy in BattleField.Instance.currentAllies)
                 {
                     var dir = enemy.transform.position - transform.position;
                     var distance = dir.magnitude;
@@ -366,7 +366,7 @@ public class BattleCharacter : MonoBehaviour
         }
         else
         {
-            BattleField.Instance.allies.Remove(this);
+            BattleField.Instance.currentAllies.Remove(this);
         }
 
         deathSoundSource.transform.parent = transform.parent;
