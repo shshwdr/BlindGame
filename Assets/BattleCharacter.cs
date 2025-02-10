@@ -8,6 +8,7 @@ using UnityEngine;
 public class BattleCharacter : MonoBehaviour
 {
     public bool isEnmey;
+    public bool isRanged = false;
 
     public float moveSpeed = 1;
 
@@ -152,10 +153,50 @@ public class BattleCharacter : MonoBehaviour
             
             if (target != null)
             {
-                var dir = target.transform.position - transform.position;
-                var distance = dir.magnitude;
-                if (distance > attackRange)
+
+                bool canAttack = false;
+                Vector3 dir = new Vector3();
+                if (isRanged)
                 {
+
+                    var targetPosition =
+                        BattleField.GetLocation(target.currentAxis, Vector3.Magnitude(transform.position));
+                    if (Vector3.Distance(targetPosition, transform.position) > 0.1f)
+                    {
+                        canAttack = false;
+                        dir = targetPosition - transform.position;
+                    }
+                    else
+                    {
+                        dir = target.transform.position - transform.position;
+                        var distance = dir.magnitude;
+                        if (distance > attackRange)
+                        {
+                            canAttack = false;
+                        }
+                        else
+                        {
+                            canAttack = true;
+                        }
+                    }
+                }
+                else
+                {
+                    dir = target.transform.position - transform.position;
+                    var distance = dir.magnitude;
+                    if (distance > attackRange)
+                    {
+                        canAttack = false;
+                    }
+                    else
+                    {
+                        canAttack = true;
+                    }
+                }
+
+                if (!canAttack)
+                {
+                    
                     transform.position += dir.normalized * moveSpeed * time;
                     if (!isWalking)
                     {

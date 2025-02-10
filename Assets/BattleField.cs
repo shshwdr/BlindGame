@@ -124,21 +124,10 @@ public class BattleField : Singleton<BattleField>
          {
              spawnTimer = spawnTime;
 
-             int axis = Random.Range(0, MaxAxis+1);
-             var position = GetLocation(axis, 10);
-             
-             var go =Instantiate(Resources.Load<GameObject>("Prefabs/Enemy"), position, Quaternion.identity);
-             go.GetComponent<BattleCharacter>().Init("goblin",axis);
-               enemies.Add(go.GetComponent<BattleCharacter>());
 
-               if (Random.Range(0, 100) < 40)
-               {
-                   
-                   allies[0].Speak("NewGoblinSpawn");
-               }
 
-               enemyCount++;
-               
+             CreateEnemy();
+
          }
 
          foreach (var ally in allies)
@@ -149,5 +138,26 @@ public class BattleField : Singleton<BattleField>
          {
              ally.UpdateBattle(Time.deltaTime);
          }
+    }
+
+
+    public void CreateEnemy()
+    {
+        int axis = Random.Range(0, MaxAxis+1);
+        var position = GetLocation(axis, 10);
+             
+        var go =Instantiate(Resources.Load<GameObject>("Prefabs/Enemy"), position, Quaternion.identity);
+        go.GetComponent<BattleCharacter>().Init("goblin",axis);
+        enemies.Add(go.GetComponent<BattleCharacter>());
+        
+        
+        if (Random.Range(0, 100) < 40)
+        {
+                   
+            allies[0].Speak("NewGoblinSpawn");
+        }
+        
+        
+        enemyCount++;
     }
 }

@@ -32,7 +32,7 @@ public class DialogueManager : Singleton<DialogueManager>
 
     private void Update()
     {
-        if (Input.GetKeyDown(KeyCode.S))
+        if (Input.GetKeyDown(KeyCode.Backspace))
         {
             FinishDialogue();
         }
