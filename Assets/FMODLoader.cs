@@ -1,34 +1,69 @@
 using UnityEngine;
 using UnityEngine.SceneManagement;
 using System.Collections;
+using System.Collections.Generic;
 using FMODUnity;
+using FMOD.Studio;
 
 public class FMODLoader : MonoBehaviour
 {
-    // 可以通过 Inspector 指定要加载的银行名称和对应路径
     public string[] banksToLoad = { "Master", "Master.strings" };
-    // 主场景名称（加载完银行后跳转到该场景）
     public string mainSceneName = "MainScene";
 
     IEnumerator Start()
     {
-        // 等待一帧，确保 WebGL 平台初始化完毕
+        // 等待一帧，确保平台初始化完成
         yield return new WaitForEndOfFrame();
 
-        // 循环加载指定的银行
-        foreach (string bank in banksToLoad)
+        // 用来跟踪所有银行的加载状态
+        List<Bank> loadedBanks = new List<Bank>();
+
+        // 异步加载每个银行
+        foreach (string bankName in banksToLoad)
         {
-            // 加载银行文件（同步加载）
-            RuntimeManager.LoadBank(bank);
-            // 如果需要等待银行加载完成，可以考虑添加适当延时或使用异步加载方案
-            // 这里简单地等待 0.5 秒
-            yield return new WaitForSeconds(0.5f);
+            Bank bank;
+            RuntimeManager.StudioSystem.loadBankFile(bankName, LOAD_BANK_FLAGS.NORMAL, out bank);
+
+            if (bank.isValid())
+            {
+                loadedBanks.Add(bank);
+            }
+            else
+            {
+                Debug.LogError($"Failed to load bank: {bankName}");
+            }
         }
 
-        // 等待所有银行加载完毕
-        // 你也可以在这里检查 RuntimeManager.BankLoadStatus 之类的状态
+        // 检查所有银行是否加载完成
+        bool allBanksLoaded = false;
+        while (!allBanksLoaded)
+        {
+            allBanksLoaded = true;
+            foreach (var bank in loadedBanks)
+            {
+                if (!IsBankLoaded(bank))
+                {
+                    allBanksLoaded = false;
+                    break;
+                }
+            }
 
-        // 完成 FMOD 初始化后，切换到主场景
+            if (!allBanksLoaded)
+            {
+                yield return null; // 每帧检查一次
+            }
+        }
+
+        Debug.Log("All FMOD banks loaded successfully!");
+
+        // 所有银行加载完成后切换到主场景
         SceneManager.LoadScene(mainSceneName);
+    }
+
+    // 检查银行是否加载完成的辅助方法
+    bool IsBankLoaded(Bank bank)
+    {
+        bank.getLoadingState(out LOADING_STATE state);
+        return state == LOADING_STATE.LOADED;
     }
 }

@@ -11,6 +11,9 @@ public class BattlePlayer : MonoBehaviour
     public AudioClip speedupClip;
     public AudioClip rotateClip;
     public AudioClip cancelClip;
+
+    private BattleCharacter currentSelectedCharacter = null;
+    
     
     // Start is called before the first frame update
     void Start()
