@@ -21,7 +21,9 @@ public class BattleCharacter : MonoBehaviour
     public AudioSource deathSoundSource;
     public AudioSource spawnSoundSource;
     public AudioSource talkSoundSource;
+    public AudioSource weaponAttack;
 
+    private List<AudioSource> sourceExceptTalk;
     private BattleCharacter target;
 
     private float attackTimer;
@@ -50,6 +52,15 @@ public class BattleCharacter : MonoBehaviour
     }
     public void Speak(string key,bool isInterrupt = false)
     {
+        if (sourceExceptTalk!=null)
+        {
+            
+            foreach (var source in sourceExceptTalk)
+            {
+                source.volume = 0;
+            }
+        }
+        
         if (!isInterrupt && isSpeaking())
         {
             return;
@@ -66,6 +77,16 @@ public class BattleCharacter : MonoBehaviour
     }
     public void Init(string id,int axis)
     {
+        
+        sourceExceptTalk= new List<AudioSource>()
+        {
+            moveSoundSource,
+            idleSoundSource,
+            attackSoundSource,
+            takeDamageSoundSource,
+            deathSoundSource,
+            spawnSoundSource
+        };
         identifier = id;
         currentAxis = axis;
         sound = SoundLoadManager.Instance.enemySoundDict.GetValueOrDefault(id);
@@ -93,6 +114,17 @@ public class BattleCharacter : MonoBehaviour
         if (isDead)
         {
             return;
+        }
+        
+        
+        
+        if (!isSpeaking())
+        {
+            if (sourceExceptTalk!=null)
+            foreach (var source in sourceExceptTalk)
+            {
+                source.volume = 1;
+            }
         }
 
         foreach (var timer in timers.ToList())
@@ -256,6 +288,10 @@ public class BattleCharacter : MonoBehaviour
                         
                         transform.position -= rayDir * moveSpeed * Time.deltaTime;
                     }
+                    else
+                    {
+                        transform.position += dir.normalized * moveSpeed * Time.deltaTime;
+                    }
                     if (!isWalking)
                     {
                         StartWalking();
@@ -394,6 +430,8 @@ public class BattleCharacter : MonoBehaviour
         if (sound!=null)
         {
             attackSoundSource.PlayOneShot(sound.attackClips.RandomItem());
+            if(sound.weaponAttackClips.Count>0)
+            weaponAttack.PlayOneShot(sound.weaponAttackClips.RandomItem());
         }
         else
         {
@@ -444,11 +482,13 @@ public class BattleCharacter : MonoBehaviour
     void StartWalking()
     {
         idleSoundSource.Stop();
+        if(moveSoundSource.clip!=null)
         moveSoundSource.Play();
     }
     void StopWalking()
     {
         
+        if(idleSoundSource.clip!=null)
         idleSoundSource.Play();
         moveSoundSource.Stop();
     }

@@ -136,6 +136,11 @@ public class DialogueManager : Singleton<DialogueManager>
         }
     }
 
+    public void SetBattleDialogue(string battleName)
+    {
+        dialogueText.text = $"Battle {battleName} is In Progress";
+    }
+
     void DoAfterDialogueEvent(DialogueInfo info)
     {
         if (info.eventAfter!=null &&info.eventAfter.Count>0)

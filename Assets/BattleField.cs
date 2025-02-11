@@ -13,7 +13,7 @@ public class BattleField : Singleton<BattleField>
 
 
     public string battleId;
-    
+    private BattleInfo battleInfo;
     public static float RotateDegree = 45;
 
     public List<BattleCharacter> enemies;
@@ -63,8 +63,12 @@ public class BattleField : Singleton<BattleField>
     {
         isStart = true;
           this.battleId = id;
-        currentAllies[0].Init("hero1",currentAllies[0].currentAxis);
-var battleInfo = CSVLoader.Instance.battleInfoDict[id];
+
+          foreach (var currentAlly in currentAllies)
+          {
+              currentAlly.Init(currentAlly.name,currentAlly.currentAxis);
+          }
+ battleInfo = CSVLoader.Instance.battleInfoDict[id];
         currentAllies[0].Speak("BattleBegin",true);
         spawnTime = battleInfo.spawnTime;
         spawnTimer = 5;
@@ -75,9 +79,16 @@ var battleInfo = CSVLoader.Instance.battleInfoDict[id];
     }
     // Start is called before the first frame update
 
-    
-    
-    IEnumerator afterBattle()
+
+    IEnumerator winBattle(bool skip = false)
+    {
+        afterBattle();
+        currentAllies[0].Speak("BattleFinish",true);
+        isStart = false;
+        yield return new WaitForSeconds(skip?0:5);
+        DialogueManager.Instance.StartDialogue(CSVLoader.Instance.battleInfoDict[battleId].afterBattleEvent[1]);
+    }
+    void afterBattle()
     {
 
         foreach (var enemy in enemies)
@@ -87,17 +98,13 @@ var battleInfo = CSVLoader.Instance.battleInfoDict[id];
         enemies.Clear();
         
         battlemusic.stop(STOP_MODE.ALLOWFADEOUT);
-        currentAllies[0].Speak("BattleFinish",true);
-        isStart = false;
-        yield return new WaitForSeconds(5);
-        DialogueManager.Instance.StartDialogue(CSVLoader.Instance.battleInfoDict[battleId].afterBattleEvent[1]);
     }
     public void KillEnemy()
     {
         enemyKilled++;
         if (enemyKilled >= goblinMaxNumber)
         {
-            WinBattle();
+            WinBattle(false);
         }
         else if(enemyKilled>= goblinMaxNumber-1)
         {
@@ -109,10 +116,16 @@ var battleInfo = CSVLoader.Instance.battleInfoDict[id];
         }
     }
 
-    public void WinBattle()
+    public void WinBattle(bool skip)
     {
         
-        StartCoroutine(afterBattle());
+        StartCoroutine(winBattle(skip));
+    }
+
+    public void RestartBattle()
+    {
+        afterBattle();
+        StartBattle(battleId);
     }
     // Update is called once per frame
     void Update()
@@ -124,8 +137,14 @@ var battleInfo = CSVLoader.Instance.battleInfoDict[id];
         
         if (Input.GetKeyDown(KeyCode.Backspace))
         {
-            WinBattle();
+            WinBattle(true);
         }
+        if (Input.GetKeyDown(KeyCode.KeypadEnter))
+        {
+            RestartBattle();
+        }
+
+        DialogueManager.Instance.SetBattleDialogue(battleInfo.id);
 
         if (Input.GetKeyDown(KeyCode.W))
         {

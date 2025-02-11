@@ -6,8 +6,10 @@ using UnityEngine;
 public class BattleCharacterSound
 {
     public List<AudioClip> attackClips;
+    public List<AudioClip> weaponAttackClips;
     public List<AudioClip> hurtClips;
     public AudioClip moveClip;
+    public AudioClip healToFullClip;
     public AudioClip deathClip;
     public AudioClip spawnClip;
     public AudioClip idleClip;
@@ -32,12 +34,18 @@ public class SoundLoadManager : Singleton<SoundLoadManager>
 
         // 过滤出文件名以 "Attack_" 开头的音乐文件
         characterSound.attackClips = allClips.Where(clip => clip.name.StartsWith("Attack")).ToList();
+        characterSound.weaponAttackClips = allClips.Where(clip => clip.name.StartsWith("WeaponAttack")).ToList();
         characterSound.hurtClips = allClips.Where(clip => clip.name.StartsWith("Hurt")).ToList();
 
         var spawns = allClips.Where(clip => clip.name.StartsWith("Spawn")).ToArray();
         if (spawns.Length > 0)
         {
             characterSound.spawnClip = spawns[0];
+        }
+        var healToFulls = allClips.Where(clip => clip.name.StartsWith("HealToFul")).ToArray();
+        if (healToFulls.Length > 0)
+        {
+            characterSound.healToFullClip = healToFulls[0];
         }
         
         var idles = allClips.Where(clip => clip.name.StartsWith("Idle")).ToArray();
