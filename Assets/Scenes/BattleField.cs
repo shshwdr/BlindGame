@@ -2,6 +2,7 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using FMOD.Studio;
+using FMODUnity;
 using UnityEngine;
 using UnityEngine.Serialization;
 using Random = UnityEngine.Random;
@@ -31,9 +32,11 @@ public class BattleField : Singleton<BattleField>
     
     
     List<string> enemiesList = new List<string>();
-    
-    private FMOD.Studio.EventInstance battlemusic;
-    
+
+    [SerializeField] private EventReference musicEvent; // Expose FMOD Event in Inspector
+
+    private EventInstance battlemusic;
+
 
     public void AddAlly(string key)
     {
@@ -44,8 +47,8 @@ public class BattleField : Singleton<BattleField>
     }
     private void Start()
     {
-        
-        battlemusic = FMODUnity.RuntimeManager.CreateInstance("event:/Music/mus_battle_1");
+
+        battlemusic = RuntimeManager.CreateInstance(musicEvent);
     }
 
     static public float AxisToDegree(int axis)
@@ -136,7 +139,7 @@ public class BattleField : Singleton<BattleField>
         }
         enemies.Clear();
         
-        battlemusic.stop(STOP_MODE.ALLOWFADEOUT);
+        battlemusic.stop(FMOD.Studio.STOP_MODE.ALLOWFADEOUT);
         lastJoinCharacter++;
     }
     public void KillEnemy()
