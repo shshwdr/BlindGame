@@ -1110,6 +1110,13 @@ MonoBehaviour:
   - {fileID: 822293376}
   healer: {fileID: 793882878}
   isStart: 0
+  musicEvent:
+    Guid:
+      Data1: 65587604
+      Data2: 1171592864
+      Data3: -1194541893
+      Data4: -982568703
+    Path: event:/Music/mus_battle_1
 --- !u!1001 &1033264250
 PrefabInstance:
   m_ObjectHideFlags: 0

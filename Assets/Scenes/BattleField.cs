@@ -33,7 +33,7 @@ public class BattleField : Singleton<BattleField>
     
     List<string> enemiesList = new List<string>();
 
-    [SerializeField] private EventReference musicEvent; // Expose FMOD Event in Inspector
+    [SerializeField] private EventReference musicEvent;
 
     private EventInstance battlemusic;
 
