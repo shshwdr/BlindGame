@@ -23,7 +23,7 @@ public class DialogueManager : Singleton<DialogueManager>
         StartCoroutine(PlayDialogue(CSVLoader.Instance.dialogueInfoDict[dialogueName]));
     }
 
-    bool isStopped()
+    bool isStopped() 
     {
         var stopped = !dialogueSource.isPlaying || interrupt;
         

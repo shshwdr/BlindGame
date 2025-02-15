@@ -1,8 +1,0 @@
-﻿type,rarity,count,identifier,isSkill
-w,0,20,random,
-a,0,20,random,
-m,0,20,random,
-M_Freeze,,0,,1
-A_Multiple Arrows,,0,,1
-a,0,0,LAPirateCaptain,
-BoostATKL3,,0,,1

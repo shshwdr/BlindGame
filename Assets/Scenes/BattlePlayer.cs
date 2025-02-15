@@ -72,6 +72,19 @@ Dictionary<KeyCode,bool> isEnemy = new Dictionary<KeyCode,bool>()
                 {
                     currentKeyCode = key;
                     currentSelectedCharacter = target;
+                    
+                    foreach (var filter in FindObjectsOfType<AudioDirectionFilter>())
+                    {
+                        var character = filter.GetComponent<BattleCharacter>();
+                        if (character && character == currentSelectedCharacter)
+                        {
+                            filter.CutCharacter(false);
+                        }
+                        else
+                        {
+                            filter.CutCharacter(true);
+                        }
+                    }
                 }
             }
 
@@ -102,13 +115,18 @@ Dictionary<KeyCode,bool> isEnemy = new Dictionary<KeyCode,bool>()
                             currentSelectedCharacter.Stun();
                             break;
                     }
-                    
-                    foreach (var resonanceSource in FindObjectsOfType<ResonanceAudioSource>())
+                  
+                    foreach (var filter in FindObjectsOfType<AudioDirectionFilter>())
                     {
                         
-                            resonanceSource.gainDb = 0;
-                        
+                        filter.CutCharacter(false);
                     }
+                    // foreach (var resonanceSource in FindObjectsOfType<ResonanceAudioSource>())
+                    // {
+                    //     
+                    //         resonanceSource.gainDb = 0;
+                    //     
+                    // }
                 }
             }
 
@@ -122,23 +140,25 @@ Dictionary<KeyCode,bool> isEnemy = new Dictionary<KeyCode,bool>()
                 {
                     currentSelectedCharacter = findAnotherCharacterInFront(currentSelectedCharacter, false);
                 }
+
+
                 
-                foreach (var resonanceSource in FindObjectsOfType<ResonanceAudioSource>())
-                {
-                    if (resonanceSource.transform.parent)
-                    {
-                        
-                        var character = resonanceSource.transform.parent.GetComponent<BattleCharacter>();
-                        if (character != currentSelectedCharacter)
-                        {
-                            resonanceSource.gainDb = -40;
-                        }
-                        else
-                        {
-                            resonanceSource.gainDb = 0;
-                        }
-                    }
-                }
+                // foreach (var resonanceSource in FindObjectsOfType<ResonanceAudioSource>())
+                // {
+                //     if (resonanceSource.transform.parent)
+                //     {
+                //         
+                //         var character = resonanceSource.transform.parent.GetComponent<BattleCharacter>();
+                //         if (character != currentSelectedCharacter)
+                //         {
+                //             resonanceSource.gainDb = -40;
+                //         }
+                //         else
+                //         {
+                //             resonanceSource.gainDb = 0;
+                //         }
+                //     }
+                // }
 
                 
             }

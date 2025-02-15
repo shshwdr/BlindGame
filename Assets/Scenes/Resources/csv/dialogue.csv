@@ -13,3 +13,8 @@ dialogue_1_9,"Good, now I'm going to move to another place, keep rotating to hea
 dialogue_1_10,You got the basics down. Let's see how you do on a real adventure. ,hero1,,,,1,startBattle|1
 dialogue_4_1,Nice shooting! I thought we were done for there.,hero1,,,,0,addAlly|hero2
 dialogue_4_2,Nice shooting! I thought we were done for there.,hero1,,,,1,startBattle|2
+dialogue_5_1,"Finally, a chance to rest. Feels like we’ve been fighting all day.",hero1,,,,,learnSpell|3
+dialogue_5_2,"Finally, a chance to rest. Feels like we’ve been fighting all day.",hero1,,,,1,startBattle|3
+dialogue_stun_1,You leveled up!,hero1,,,,,learnSpell|4
+dialogue_stun_2,You learned a new spell: Stun,hero1,,,,1,startBattle|4
+dialogue_8_1,Ha! That was some fight! We actually made it through.,hero1,,,,1,startBattle|5

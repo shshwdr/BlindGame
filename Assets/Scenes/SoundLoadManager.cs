@@ -13,6 +13,8 @@ public class BattleCharacterSound
     public AudioClip deathClip;
     public AudioClip spawnClip;
     public AudioClip idleClip;
+    public AudioClip ChargeClip;
+    public AudioClip ChargeStartClip;
     public Dictionary<string, List<AudioClip>> others;
 }
 public class SoundLoadManager : Singleton<SoundLoadManager>
@@ -60,6 +62,18 @@ public class SoundLoadManager : Singleton<SoundLoadManager>
             characterSound.moveClip = moves[0];
         }
         
+        var charges = allClips.Where(clip => clip.name.StartsWith("Charge")).ToArray();
+        if (charges.Length > 0)
+        {
+            characterSound.ChargeClip = charges[0];
+        }
+        
+        var chargeStarts = allClips.Where(clip => clip.name.StartsWith("ChargeStart")).ToArray();
+        if (chargeStarts.Length > 0)
+        {
+            characterSound.ChargeStartClip = chargeStarts[0];
+        }
+        
         var deaths = allClips.Where(clip => clip.name.StartsWith("Die")).ToArray();
         if (deaths.Length > 0)
         {
@@ -88,7 +102,10 @@ public class SoundLoadManager : Singleton<SoundLoadManager>
     {
         
         FindMusicFiles("goblin");
+        FindMusicFiles("bat");
+        FindMusicFiles("snake");
         FindMusicFiles("hero1");
+        FindMusicFiles("hero2");
     }
 
     // Update is called once per frame

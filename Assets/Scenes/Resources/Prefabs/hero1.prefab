@@ -8,6 +8,18 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 929517439550079928, guid: 0ddcb635bc2cc4142ab8d0ce7419749d, type: 3}
+      propertyPath: Spatialize
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 929517439550079928, guid: 0ddcb635bc2cc4142ab8d0ce7419749d, type: 3}
+      propertyPath: BypassReverbZones
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 929517439550079928, guid: 0ddcb635bc2cc4142ab8d0ce7419749d, type: 3}
+      propertyPath: SpatializePostEffects
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 1964711024419140033, guid: 0ddcb635bc2cc4142ab8d0ce7419749d, type: 3}
       propertyPath: m_LocalPosition.x
       value: 0
@@ -48,10 +60,70 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 2502747733958199727, guid: 0ddcb635bc2cc4142ab8d0ce7419749d, type: 3}
+      propertyPath: Spatialize
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2502747733958199727, guid: 0ddcb635bc2cc4142ab8d0ce7419749d, type: 3}
+      propertyPath: BypassReverbZones
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2502747733958199727, guid: 0ddcb635bc2cc4142ab8d0ce7419749d, type: 3}
+      propertyPath: SpatializePostEffects
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4457114637281458070, guid: 0ddcb635bc2cc4142ab8d0ce7419749d, type: 3}
+      propertyPath: Spatialize
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4457114637281458070, guid: 0ddcb635bc2cc4142ab8d0ce7419749d, type: 3}
+      propertyPath: BypassReverbZones
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4457114637281458070, guid: 0ddcb635bc2cc4142ab8d0ce7419749d, type: 3}
+      propertyPath: SpatializePostEffects
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4557042290185248000, guid: 0ddcb635bc2cc4142ab8d0ce7419749d, type: 3}
+      propertyPath: Spatialize
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 4557042290185248000, guid: 0ddcb635bc2cc4142ab8d0ce7419749d, type: 3}
       propertyPath: m_audioClip
       value: 
       objectReference: {fileID: 8300000, guid: 426f5a7810b51ee43ae86f8dffc500d0, type: 3}
+    - target: {fileID: 4557042290185248000, guid: 0ddcb635bc2cc4142ab8d0ce7419749d, type: 3}
+      propertyPath: BypassReverbZones
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4557042290185248000, guid: 0ddcb635bc2cc4142ab8d0ce7419749d, type: 3}
+      propertyPath: SpatializePostEffects
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5219804115272194668, guid: 0ddcb635bc2cc4142ab8d0ce7419749d, type: 3}
+      propertyPath: Spatialize
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5219804115272194668, guid: 0ddcb635bc2cc4142ab8d0ce7419749d, type: 3}
+      propertyPath: BypassReverbZones
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5219804115272194668, guid: 0ddcb635bc2cc4142ab8d0ce7419749d, type: 3}
+      propertyPath: SpatializePostEffects
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5279055583489525880, guid: 0ddcb635bc2cc4142ab8d0ce7419749d, type: 3}
+      propertyPath: Spatialize
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5279055583489525880, guid: 0ddcb635bc2cc4142ab8d0ce7419749d, type: 3}
+      propertyPath: BypassReverbZones
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5279055583489525880, guid: 0ddcb635bc2cc4142ab8d0ce7419749d, type: 3}
+      propertyPath: SpatializePostEffects
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 6247591101399499831, guid: 0ddcb635bc2cc4142ab8d0ce7419749d, type: 3}
       propertyPath: m_Name
       value: hero1
@@ -59,6 +131,30 @@ PrefabInstance:
     - target: {fileID: 6852503104824600035, guid: 0ddcb635bc2cc4142ab8d0ce7419749d, type: 3}
       propertyPath: m_Enabled
       value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 7113226324184803839, guid: 0ddcb635bc2cc4142ab8d0ce7419749d, type: 3}
+      propertyPath: Spatialize
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7113226324184803839, guid: 0ddcb635bc2cc4142ab8d0ce7419749d, type: 3}
+      propertyPath: BypassReverbZones
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7113226324184803839, guid: 0ddcb635bc2cc4142ab8d0ce7419749d, type: 3}
+      propertyPath: SpatializePostEffects
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8344658952417148813, guid: 0ddcb635bc2cc4142ab8d0ce7419749d, type: 3}
+      propertyPath: Spatialize
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8344658952417148813, guid: 0ddcb635bc2cc4142ab8d0ce7419749d, type: 3}
+      propertyPath: BypassReverbZones
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8344658952417148813, guid: 0ddcb635bc2cc4142ab8d0ce7419749d, type: 3}
+      propertyPath: SpatializePostEffects
+      value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
@@ -86,5 +182,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   playerTransform: {fileID: 0}
+  characterMinCutoff: 500
   minCutoff: 2000
   maxCutoff: 22000

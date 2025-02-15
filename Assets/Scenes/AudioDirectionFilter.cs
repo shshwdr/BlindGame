@@ -7,7 +7,9 @@ public class AudioDirectionFilter : MonoBehaviour
     
     // AudioLowPassFilter 组件
     private AudioLowPassFilter[] lowPassFilters;
-    
+
+
+    public float characterMinCutoff = 500f;
     // 调整参数
     public float minCutoff = 500f;  // 当声音在背后时的最低 cutoff（单位 Hz）
     public float maxCutoff = 22000f; // 当声音在正前方时的最高 cutoff（基本上无滤波）
@@ -18,6 +20,11 @@ public class AudioDirectionFilter : MonoBehaviour
         playerTransform = DialogueManager.Instance.player.transform;
     }
 
+    private bool isCutCharacter = false;
+    public void CutCharacter(bool isCut)
+    {
+          isCutCharacter = isCut;
+    }
     void Update()
     {
         if (playerTransform == null)
@@ -40,7 +47,10 @@ public class AudioDirectionFilter : MonoBehaviour
         float t = Mathf.Clamp01((dot + 1f) * 0.5f); // 将 -1~1 映射到 0~1
         // 例如，我们希望当 t 越低时，cutoff 越低；当 t 越高时，cutoff 越高
         float cutoff = Mathf.Lerp(minCutoff, maxCutoff, t);
-        
+        if (isCutCharacter)
+        {
+            cutoff = characterMinCutoff;
+        }
         foreach (AudioLowPassFilter lowPassFilter in lowPassFilters)
         {
             if (lowPassFilter.enabled)

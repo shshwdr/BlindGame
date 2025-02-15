@@ -161,6 +161,10 @@ MonoBehaviour:
   isEnmey: 0
   isRanged: 0
   moveSpeed: 1
+  isHealer: 0
+  chargeTime: 0
+  canAttackOtherLine: 0
+  canAttackHealer: 0
   moveSoundSource: {fileID: 4042850039623125376}
   idleSoundSource: {fileID: 4250291134927954710}
   attackSoundSource: {fileID: 5648695306903756024}
@@ -190,15 +194,15 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 3460679929899563219, guid: 118a79cd868062a49a1b8f62086a0fc1, type: 3}
       propertyPath: Spatialize
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 3460679929899563219, guid: 118a79cd868062a49a1b8f62086a0fc1, type: 3}
       propertyPath: BypassReverbZones
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 3460679929899563219, guid: 118a79cd868062a49a1b8f62086a0fc1, type: 3}
       propertyPath: SpatializePostEffects
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 4295456663513374087, guid: 118a79cd868062a49a1b8f62086a0fc1, type: 3}
       propertyPath: m_Name
@@ -273,15 +277,15 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 3460679929899563219, guid: 118a79cd868062a49a1b8f62086a0fc1, type: 3}
       propertyPath: Spatialize
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 3460679929899563219, guid: 118a79cd868062a49a1b8f62086a0fc1, type: 3}
       propertyPath: BypassReverbZones
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 3460679929899563219, guid: 118a79cd868062a49a1b8f62086a0fc1, type: 3}
       propertyPath: SpatializePostEffects
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 4295456663513374087, guid: 118a79cd868062a49a1b8f62086a0fc1, type: 3}
       propertyPath: m_Name
@@ -356,7 +360,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 3460679929899563219, guid: 118a79cd868062a49a1b8f62086a0fc1, type: 3}
       propertyPath: Spatialize
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 3460679929899563219, guid: 118a79cd868062a49a1b8f62086a0fc1, type: 3}
       propertyPath: m_audioClip
@@ -368,11 +372,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 3460679929899563219, guid: 118a79cd868062a49a1b8f62086a0fc1, type: 3}
       propertyPath: BypassReverbZones
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 3460679929899563219, guid: 118a79cd868062a49a1b8f62086a0fc1, type: 3}
       propertyPath: SpatializePostEffects
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 4295456663513374087, guid: 118a79cd868062a49a1b8f62086a0fc1, type: 3}
       propertyPath: m_Name
@@ -442,8 +446,20 @@ PrefabInstance:
     m_TransformParent: {fileID: 2045413943883490625}
     m_Modifications:
     - target: {fileID: 3460679929899563219, guid: 118a79cd868062a49a1b8f62086a0fc1, type: 3}
+      propertyPath: Spatialize
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3460679929899563219, guid: 118a79cd868062a49a1b8f62086a0fc1, type: 3}
       propertyPath: m_audioClip
       value: 
+      objectReference: {fileID: 0}
+    - target: {fileID: 3460679929899563219, guid: 118a79cd868062a49a1b8f62086a0fc1, type: 3}
+      propertyPath: BypassReverbZones
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3460679929899563219, guid: 118a79cd868062a49a1b8f62086a0fc1, type: 3}
+      propertyPath: SpatializePostEffects
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 4295456663513374087, guid: 118a79cd868062a49a1b8f62086a0fc1, type: 3}
       propertyPath: m_Name
@@ -518,7 +534,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 3460679929899563219, guid: 118a79cd868062a49a1b8f62086a0fc1, type: 3}
       propertyPath: Spatialize
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 3460679929899563219, guid: 118a79cd868062a49a1b8f62086a0fc1, type: 3}
       propertyPath: m_audioClip
@@ -530,11 +546,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 3460679929899563219, guid: 118a79cd868062a49a1b8f62086a0fc1, type: 3}
       propertyPath: BypassReverbZones
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 3460679929899563219, guid: 118a79cd868062a49a1b8f62086a0fc1, type: 3}
       propertyPath: SpatializePostEffects
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 4295456663513374087, guid: 118a79cd868062a49a1b8f62086a0fc1, type: 3}
       propertyPath: m_Name
@@ -609,7 +625,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 3460679929899563219, guid: 118a79cd868062a49a1b8f62086a0fc1, type: 3}
       propertyPath: Spatialize
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 3460679929899563219, guid: 118a79cd868062a49a1b8f62086a0fc1, type: 3}
       propertyPath: m_audioClip
@@ -621,11 +637,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 3460679929899563219, guid: 118a79cd868062a49a1b8f62086a0fc1, type: 3}
       propertyPath: BypassReverbZones
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 3460679929899563219, guid: 118a79cd868062a49a1b8f62086a0fc1, type: 3}
       propertyPath: SpatializePostEffects
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 4295456663513374087, guid: 118a79cd868062a49a1b8f62086a0fc1, type: 3}
       propertyPath: m_Name
@@ -700,7 +716,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 3460679929899563219, guid: 118a79cd868062a49a1b8f62086a0fc1, type: 3}
       propertyPath: Spatialize
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 3460679929899563219, guid: 118a79cd868062a49a1b8f62086a0fc1, type: 3}
       propertyPath: m_audioClip
@@ -712,11 +728,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 3460679929899563219, guid: 118a79cd868062a49a1b8f62086a0fc1, type: 3}
       propertyPath: BypassReverbZones
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 3460679929899563219, guid: 118a79cd868062a49a1b8f62086a0fc1, type: 3}
       propertyPath: SpatializePostEffects
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 4295456663513374087, guid: 118a79cd868062a49a1b8f62086a0fc1, type: 3}
       propertyPath: m_Name
@@ -791,7 +807,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 3460679929899563219, guid: 118a79cd868062a49a1b8f62086a0fc1, type: 3}
       propertyPath: Spatialize
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 3460679929899563219, guid: 118a79cd868062a49a1b8f62086a0fc1, type: 3}
       propertyPath: m_audioClip
@@ -803,11 +819,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 3460679929899563219, guid: 118a79cd868062a49a1b8f62086a0fc1, type: 3}
       propertyPath: BypassReverbZones
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 3460679929899563219, guid: 118a79cd868062a49a1b8f62086a0fc1, type: 3}
       propertyPath: SpatializePostEffects
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 4295456663513374087, guid: 118a79cd868062a49a1b8f62086a0fc1, type: 3}
       propertyPath: m_Name

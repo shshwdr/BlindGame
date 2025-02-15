@@ -11,8 +11,11 @@ public class BattleCharacter : MonoBehaviour
     public bool isRanged = false;
 
     public float moveSpeed = 1;
-
+    public bool isHealer = false;
     private string identifier;
+    public float chargeTime = 0f;
+    public bool canAttackOtherLine = false;
+    public bool canAttackHealer = false;
 
     public AudioSource moveSoundSource;
     public AudioSource idleSoundSource;
@@ -48,7 +51,7 @@ public class BattleCharacter : MonoBehaviour
 
     public bool isSpeaking()
     {
-        return talkSoundSource.isPlaying;
+        return talkSoundSource!=null && talkSoundSource.isPlaying;
     }
     public void Speak(string key,bool isInterrupt = false)
     {
@@ -116,13 +119,29 @@ public class BattleCharacter : MonoBehaviour
             return;
         }
 
+        if (isHealer)
+        {
+            return;
+        }
         if (isStun())
         {
             stunTimer -= Time.deltaTime;
             return;
         }
-        
-        
+
+        if (chargeTime > 0 && chargeTimer>0)
+        {
+            //var originChargeTimer = chargeTimer;
+            chargeTimer-= Time.deltaTime;
+            if (chargeTimer <= 0)
+            {
+                var target = BattleField.Instance.allies.RandomItem();
+                if (target != null)
+                {
+                    Attack(target);
+                }
+            }
+        }
         
         if (!isSpeaking())
         {
@@ -258,11 +277,14 @@ public class BattleCharacter : MonoBehaviour
                 }
             }
         }
-        else
+        else//enemy
         {
-            
-            
-            if (target && target.currentAxis == currentAxis)
+
+            if (isCharging)
+            {
+                return;
+            }
+            if (target && ( target.currentAxis == currentAxis || target == BattleField.Instance.healer))
             {
                 var dir = target.transform.position - transform.position;
                 var distance = dir.magnitude;
@@ -271,7 +293,16 @@ public class BattleCharacter : MonoBehaviour
                     if (attackTimer <= 0)
                     {
                         attackTimer = attackTime;
-                        Attack(target);
+
+                        if (chargeTime > 0)
+                        {
+                            Charge();
+                        }
+                        else
+                        {
+                            
+                            Attack(target);
+                        }
                     }
                     else
                     {
@@ -319,13 +350,24 @@ public class BattleCharacter : MonoBehaviour
                 }
                 if (target == null)
                 {
+
+                    if (canAttackHealer)
+                    {
+                        target = BattleField.Instance.healer;
+                    }
+                    else
+                    {
+                        StopWalking();
+                        isWalking = false;
+                    }
                     
-                    StopWalking();
-                    isWalking = false;
                 }
             }
         }
     }
+
+    private float chargeTimer = 0;
+    bool isCharging=> chargeTimer>0;
 
     public IEnumerator MoveTo(int axis, float distance,float time)
     {
@@ -336,6 +378,20 @@ public class BattleCharacter : MonoBehaviour
         yield return new WaitForSeconds(time);
         
         StopWalking();
+    }
+
+    public void Charge()
+    {
+        chargeTimer = chargeTime;
+        spawnSoundSource.clip = sound.ChargeStartClip;
+        spawnSoundSource.Play();
+    }
+
+    void StopCharge()
+    {
+        
+        spawnSoundSource.Stop();
+        chargeTimer = 0;
     }
 
     public void KilledOneEnemy()
@@ -363,6 +419,7 @@ public class BattleCharacter : MonoBehaviour
             Die();
             return;
         }
+        
         if (sound!=null)
         {
             takeDamageSoundSource.PlayOneShot(sound.hurtClips.RandomItem());
@@ -420,6 +477,12 @@ public class BattleCharacter : MonoBehaviour
         
         deathSoundSource.Play();
         isDead = true;
+
+        if (isHealer)
+        {
+            BattleField.Instance.LoseBattle(false);
+        }
+        
         if (isEnmey)
         {
             
@@ -432,6 +495,7 @@ public class BattleCharacter : MonoBehaviour
         {
             return;
         }
+        StopCharge();
 
         if (sound!=null)
         {
@@ -481,7 +545,7 @@ public class BattleCharacter : MonoBehaviour
     public void Stun()
     {
         stunTimer = stunTime;
-        
+        StopCharge();
         StopWalking();
     }
 

@@ -19,6 +19,7 @@ public class BattleField : Singleton<BattleField>
     public List<BattleCharacter> enemies;
     public List<BattleCharacter> currentAllies;
     public List<BattleCharacter> allies;
+    public BattleCharacter healer;
     public static int MaxAxis = 7;
 
     private int goblinMaxNumber = 5;
@@ -29,6 +30,7 @@ public class BattleField : Singleton<BattleField>
     private int lastJoinCharacter = 0;
     
     
+    List<string> enemiesList = new List<string>();
     
     private FMOD.Studio.EventInstance battlemusic;
     
@@ -79,6 +81,22 @@ public class BattleField : Singleton<BattleField>
     private float currentVolumn = 0.4f;
     public void StartBattle(string id)
     {
+        
+        battleInfo = CSVLoader.Instance.battleInfoDict[id];
+        enemiesList.Clear();
+        for(int i  = 0;i< battleInfo.enemy.Count; i+=2)
+        {
+            var enemyName = battleInfo.enemy[i];
+            var enemyCount = int.Parse(battleInfo.enemy[i + 1]);
+            for (int j = 0; j < enemyCount; j++)
+            {
+                enemiesList.Add(enemyName);
+            }
+     
+        }
+        enemiesList.Shuffle();
+        goblinMaxNumber = enemiesList.Count;
+        
         isStart = true;
           this.battleId = id;
 
@@ -86,13 +104,14 @@ public class BattleField : Singleton<BattleField>
           {
               currentAlly.Init(currentAlly.name,currentAlly.currentAxis);
           }
- battleInfo = CSVLoader.Instance.battleInfoDict[id];
+
+
 
      GetCharacter().Speak("BattleBegin",true);
  
         spawnTime = battleInfo.spawnTime;
         spawnTimer = 5;
-        goblinMaxNumber = int.Parse( battleInfo.enemy[1]);
+        //goblinMaxNumber = int.Parse( battleInfo.enemy[1]);
         enemyKilled = 0;
         battlemusic.start();
         battlemusic.setVolume(currentVolumn);
@@ -113,7 +132,7 @@ public class BattleField : Singleton<BattleField>
 
         foreach (var enemy in enemies)
         {
-            Destroy(enemy);
+            Destroy(enemy.gameObject);
         }
         enemies.Clear();
         
@@ -137,6 +156,19 @@ public class BattleField : Singleton<BattleField>
         }
     }
 
+    public void LoseBattle(bool skip)
+    {
+        
+        StartCoroutine(loseBattle(skip));
+    }
+    
+    IEnumerator loseBattle(bool skip = false)
+    {
+        afterBattle();
+        isStart = false;
+        yield return new WaitForSeconds(skip?0:5);
+        DialogueManager.Instance.StartDialogue(CSVLoader.Instance.battleInfoDict[battleId].afterBattleEvent[1]);
+    }
     public void WinBattle(bool skip)
     {
         
@@ -154,6 +186,12 @@ public class BattleField : Singleton<BattleField>
         if (!isStart)
         {
             return;
+        }
+
+        if (BattleField.Instance.allies.Count == 0)
+        {
+            //all dead
+            LoseBattle(false);
         }
         
         if (Input.GetKeyDown(KeyCode.Backspace))
@@ -214,8 +252,9 @@ public class BattleField : Singleton<BattleField>
         int axis = Random.Range(0, MaxAxis+1);
         var position = GetLocation(axis, 10);
              
-        var go =Instantiate(Resources.Load<GameObject>("Prefabs/Enemy"), position, Quaternion.identity);
-        go.GetComponent<BattleCharacter>().Init("goblin",axis);
+        var go =Instantiate(Resources.Load<GameObject>("Prefabs/"+enemiesList[0]), position, Quaternion.identity);
+        go.GetComponent<BattleCharacter>().Init(enemiesList[0],axis);
+        enemiesList.RemoveAt(0);
         enemies.Add(go.GetComponent<BattleCharacter>());
         
         
