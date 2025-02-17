@@ -95,6 +95,8 @@ public class DialogueManager : Singleton<DialogueManager>
         currentInfo = info;
         dialogueSource = allies[info.speaker].talkSoundSource;
         dialogueSource.clip = Resources.Load<AudioClip>("audio/dialogue/" + info.id);
+        
+        if(dialogueSource.clip!=null)
         dialogueSource.Play();
         dialogueText.text = info.text;
         interrupt = false;
@@ -112,6 +114,7 @@ public class DialogueManager : Singleton<DialogueManager>
             {
                 canInterrupt = true;
                 yield return new WaitForSeconds(1);
+                if(dialogueSource.clip!=null)
                 dialogueSource.Play();
             }
             else

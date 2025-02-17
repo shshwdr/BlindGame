@@ -180,6 +180,7 @@ MonoBehaviour:
   findEnemyRange: 5
   isDead: 0
   currentAxis: 0
+  renderer: {fileID: 2452619300080056623}
 --- !u!1001 &584861843174306131
 PrefabInstance:
   m_ObjectHideFlags: 0

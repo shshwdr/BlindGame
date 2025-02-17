@@ -49,12 +49,30 @@ public class BattleCharacter : MonoBehaviour
 
     public  int currentAxis = 0;
 
+    public GameObject renderer;
+
     public bool isSpeaking()
     {
-        return talkSoundSource!=null && talkSoundSource.isPlaying;
+        if (talkSoundSource == null)
+        {
+            return false;
+        }
+
+        if (!talkSoundSource.isPlaying || talkSoundSource.time == 0)
+        {
+            return false;
+        }
+
+        return true;
+        return talkSoundSource!=null && (talkSoundSource.isPlaying || talkSoundSource.time != 0);
     }
     public void Speak(string key,bool isInterrupt = false)
     {
+        if (talkSoundSource == null)
+        {
+            return;
+        }
+        
         if (sourceExceptTalk!=null)
         {
             
@@ -80,14 +98,15 @@ public class BattleCharacter : MonoBehaviour
     }
     public void Init(string id,int axis)
     {
-        
+        isDead = false;
+        renderer.SetActive(true);
         sourceExceptTalk= new List<AudioSource>()
         {
             moveSoundSource,
             idleSoundSource,
             attackSoundSource,
             takeDamageSoundSource,
-            deathSoundSource,
+           // deathSoundSource,
             spawnSoundSource
         };
         identifier = id;
@@ -100,14 +119,18 @@ public class BattleCharacter : MonoBehaviour
             idleSoundSource.clip = sound.idleClip;
             moveSoundSource.clip = sound.moveClip;
         }
-        
-        spawnSoundSource.Play();
 
+        if (spawnSoundSource!=null && spawnSoundSource.clip != null)
+        {
+            
+            spawnSoundSource.Play();
+        }
+
+        currentHP = maxHP;
     }
     // Start is called before the first frame update
     void Start()
     {
-        currentHP = maxHP;
         
     }
 
@@ -135,7 +158,7 @@ public class BattleCharacter : MonoBehaviour
             chargeTimer-= Time.deltaTime;
             if (chargeTimer <= 0)
             {
-                var target = BattleField.Instance.allies.RandomItem();
+                var target = BattleField.Instance.currentAlliesInBattle.RandomItem();
                 if (target != null)
                 {
                     Attack(target);
@@ -179,7 +202,11 @@ public class BattleCharacter : MonoBehaviour
         speedupTimer -= time;
         if (!isEnmey)
         {
-            if (target == null)
+            if (target != null && target.isDead)
+            {
+                target = null;
+            }
+            if (target == null || target.isDead)
             {
                 bool found = false;
                 foreach (var enemy in BattleField.Instance.enemies)
@@ -208,7 +235,7 @@ public class BattleCharacter : MonoBehaviour
                 }
             }
             
-            if (target != null)
+            if (target != null&& !target.isDead)
             {
 
                 bool canAttack = false;
@@ -339,7 +366,7 @@ public class BattleCharacter : MonoBehaviour
             else
             {
                 target = null;
-                foreach (var enemy in BattleField.Instance.currentAllies)
+                foreach (var enemy in BattleField.Instance.currentAlliesInBattle)
                 {
                     var dir = enemy.transform.position - transform.position;
                     var distance = dir.magnitude;
@@ -384,6 +411,7 @@ public class BattleCharacter : MonoBehaviour
     {
         chargeTimer = chargeTime;
         spawnSoundSource.clip = sound.ChargeStartClip;
+        if (spawnSoundSource!=null && spawnSoundSource.clip != null)
         spawnSoundSource.Play();
     }
 
@@ -422,10 +450,11 @@ public class BattleCharacter : MonoBehaviour
         
         if (sound!=null)
         {
+            
             takeDamageSoundSource.PlayOneShot(sound.hurtClips.RandomItem());
         }
         else
-        {
+        {if (takeDamageSoundSource!=null && takeDamageSoundSource.clip != null)
             takeDamageSoundSource.Play();
         }
         //todo change later
@@ -462,19 +491,21 @@ public class BattleCharacter : MonoBehaviour
         if (isEnmey)
         {
             BattleField.Instance.enemies.Remove(this);
+            deathSoundSource.transform.parent = transform.parent;
+            Destroy(deathSoundSource.gameObject,1);
         }
         else
         {
-            BattleField.Instance.currentAllies.Remove(this);
+            BattleField.Instance.currentAlliesInBattle.Remove(this);
+            renderer.SetActive(false);    
+            deathSoundSource.transform.position = BattleField.GetLocation(currentAxis, 1);
+talkSoundSource.Stop();
         }
 
-        deathSoundSource.transform.parent = transform.parent;
-        Destroy(deathSoundSource.gameObject,1);
-        
         //talkSoundSource.transform.parent = transform.parent;
        // Destroy(talkSoundSource.gameObject,1);
-        Speak("LowHP");
         
+        if (deathSoundSource!=null && deathSoundSource.clip != null)
         deathSoundSource.Play();
         isDead = true;
 
@@ -504,7 +535,7 @@ public class BattleCharacter : MonoBehaviour
             weaponAttack.PlayOneShot(sound.weaponAttackClips.RandomItem());
         }
         else
-        {
+        {if (attackSoundSource!=null && attackSoundSource.clip != null)
             attackSoundSource.Play();
         }
         target.TakeDamage(this, AttackValue);
@@ -574,13 +605,13 @@ public class BattleCharacter : MonoBehaviour
     void StartWalking()
     {
         idleSoundSource.Stop();
-        if(moveSoundSource.clip!=null)
+        if(moveSoundSource!=null &&moveSoundSource.clip!=null)
         moveSoundSource.Play();
     }
     void StopWalking()
     {
         
-        if(idleSoundSource.clip!=null)
+        if(idleSoundSource!=null &&idleSoundSource.clip!=null)
         idleSoundSource.Play();
         moveSoundSource.Stop();
     }

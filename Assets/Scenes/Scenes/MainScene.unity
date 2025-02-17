@@ -711,6 +711,7 @@ MonoBehaviour:
   findEnemyRange: 5
   isDead: 0
   currentAxis: 0
+  renderer: {fileID: 0}
 --- !u!1001 &822293375
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -1103,7 +1104,9 @@ MonoBehaviour:
   spawnTime: 10
   battleId: 
   enemies: []
-  currentAllies:
+  currentAlliesInBattle:
+  - {fileID: 1874860673}
+  availableAllies:
   - {fileID: 1874860673}
   allies:
   - {fileID: 1874860673}

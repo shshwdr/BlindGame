@@ -18,7 +18,9 @@ public class BattleField : Singleton<BattleField>
     public static float RotateDegree = 45;
 
     public List<BattleCharacter> enemies;
-    public List<BattleCharacter> currentAllies;
+    public List<BattleCharacter> currentAlliesInBattle;
+    
+    public List<BattleCharacter> availableAllies;
     public List<BattleCharacter> allies;
     public BattleCharacter healer;
     public static int MaxAxis = 7;
@@ -42,8 +44,8 @@ public class BattleField : Singleton<BattleField>
     {
         var ally = allies.Find(x => x.name == key);
         ally.gameObject.SetActive(true);
-        currentAllies.Add(ally);
-        lastJoinCharacter = currentAllies.Count-1;
+        availableAllies.Add(ally);
+        lastJoinCharacter = availableAllies.Count-1;
     }
     private void Start()
     {
@@ -58,13 +60,13 @@ public class BattleField : Singleton<BattleField>
 
     public BattleCharacter GetCharacter()
     {
-        if (lastJoinCharacter < currentAllies.Count)
+        if (lastJoinCharacter < currentAlliesInBattle.Count)
         {
-            return currentAllies[lastJoinCharacter];
+            return currentAlliesInBattle[lastJoinCharacter];
         }
         else
         {
-            return currentAllies.RandomItem();
+            return currentAlliesInBattle.RandomItem();
         }
     }
     
@@ -81,17 +83,28 @@ public class BattleField : Singleton<BattleField>
         return new Vector3(x, 0, z);
     }
 
-    private float currentVolumn = 0.4f;
-    public void StartBattle(string id)
+    private float currentVolumn = 0.2f;
+
+    void resetCurrentCharacters()
     {
         
+        currentAlliesInBattle.Clear();
+        foreach (var currentAlly in availableAllies)
+        {
+            currentAlliesInBattle.Add(currentAlly);
+            currentAlly.Init(currentAlly.name,currentAlly.currentAxis);
+        }
+    }
+    public void StartBattle(string id)
+    {
+        enemyCount = 0;
         battleInfo = CSVLoader.Instance.battleInfoDict[id];
         enemiesList.Clear();
         for(int i  = 0;i< battleInfo.enemy.Count; i+=2)
         {
             var enemyName = battleInfo.enemy[i];
-            var enemyCount = int.Parse(battleInfo.enemy[i + 1]);
-            for (int j = 0; j < enemyCount; j++)
+            var count = int.Parse(battleInfo.enemy[i + 1]);
+            for (int j = 0; j < count; j++)
             {
                 enemiesList.Add(enemyName);
             }
@@ -102,12 +115,7 @@ public class BattleField : Singleton<BattleField>
         
         isStart = true;
           this.battleId = id;
-
-          foreach (var currentAlly in currentAllies)
-          {
-              currentAlly.Init(currentAlly.name,currentAlly.currentAxis);
-          }
-
+          resetCurrentCharacters();
 
 
      GetCharacter().Speak("BattleBegin",true);
@@ -133,6 +141,7 @@ public class BattleField : Singleton<BattleField>
     void afterBattle()
     {
 
+        resetCurrentCharacters();
         foreach (var enemy in enemies)
         {
             Destroy(enemy.gameObject);
@@ -170,7 +179,9 @@ public class BattleField : Singleton<BattleField>
         afterBattle();
         isStart = false;
         yield return new WaitForSeconds(skip?0:5);
-        DialogueManager.Instance.StartDialogue(CSVLoader.Instance.battleInfoDict[battleId].afterBattleEvent[1]);
+        
+        StartBattle(battleId);
+        //DialogueManager.Instance.StartDialogue(CSVLoader.Instance.battleInfoDict[battleId].afterBattleEvent[1]);
     }
     public void WinBattle(bool skip)
     {
@@ -191,7 +202,7 @@ public class BattleField : Singleton<BattleField>
             return;
         }
 
-        if (BattleField.Instance.allies.Count == 0)
+        if (BattleField.Instance.currentAlliesInBattle.Count == 0)
         {
             //all dead
             LoseBattle(false);
@@ -238,7 +249,7 @@ public class BattleField : Singleton<BattleField>
 
          }
 
-         foreach (var ally in currentAllies)
+         foreach (var ally in currentAlliesInBattle)
          {
              
              ally.UpdateBattle(Time.deltaTime);
@@ -264,7 +275,7 @@ public class BattleField : Singleton<BattleField>
         if (Random.Range(0, 100) < 40)
         {
                    
-            currentAllies.RandomItem().Speak("NewGoblinSpawn");
+            currentAlliesInBattle.RandomItem().Speak("NewGoblinSpawn");
         }
         
         

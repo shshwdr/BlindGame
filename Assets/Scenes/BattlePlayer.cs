@@ -194,7 +194,7 @@ Dictionary<KeyCode,bool> isEnemy = new Dictionary<KeyCode,bool>()
     BattleCharacter findCharacterInFront(bool isEnemy)
     {
         
-        var character = isEnemy?BattleField.Instance.enemies:BattleField.Instance.allies;
+        var character = isEnemy?BattleField.Instance.enemies:BattleField.Instance.currentAlliesInBattle;
         var charactersInArea = new List<BattleCharacter>();
         foreach (var ally in character)
         {
@@ -231,7 +231,7 @@ Dictionary<KeyCode,bool> isEnemy = new Dictionary<KeyCode,bool>()
     BattleCharacter findAnotherCharacterInFront(BattleCharacter current, bool isNext)
     {
         var isEnemy = current.isEnmey;
-        var character = isEnemy?BattleField.Instance.enemies:BattleField.Instance.allies;
+        var character = isEnemy?BattleField.Instance.enemies:BattleField.Instance.currentAlliesInBattle;
         var charactersInArea = new List<BattleCharacter>();
         foreach (var ally in character)
         {
@@ -263,6 +263,14 @@ Dictionary<KeyCode,bool> isEnemy = new Dictionary<KeyCode,bool>()
         var index = charactersInArea.FindIndex(x => x == current);
         
         index+= isNext?1:-1;
+        if (index >= charactersInArea.Count)
+        {
+            index = 0;
+        }
+        if (index < 0)
+        {
+            index = charactersInArea.Count - 1;
+        }
         index = Mathf.Clamp(index, 0, charactersInArea.Count - 1);
         
         return charactersInArea[index];
