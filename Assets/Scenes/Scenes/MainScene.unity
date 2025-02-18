@@ -671,6 +671,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   currentAxis: 0
   soundSource: {fileID: 668510207}
+  cooldownClip: {fileID: 8300000, guid: 93999b2b7130b724298c7aa14ab8a550, type: 3}
   healClip: {fileID: 8300000, guid: 3639e4b8972c405428e1a6ae12d099c7, type: 3}
   speedupClip: {fileID: 8300000, guid: 8c4c0fc137a944746b20de09788cf1f1, type: 3}
   pushClip: {fileID: 8300000, guid: 6b94988af15cc5040ad14755d54b5c88, type: 3}
@@ -1888,7 +1889,7 @@ Transform:
   m_GameObject: {fileID: 2018160008}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -0.25421384, y: 0.2054002, z: 0.110434294}
+  m_LocalPosition: {x: 0, y: 1.67, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
@@ -1908,6 +1909,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   dialogueText: {fileID: 1034397272}
+  systemDialogueSource: {fileID: 1397042684}
   dialogueSource: {fileID: 1397042684}
   player: {fileID: 793882877}
 --- !u!1 &2023413763

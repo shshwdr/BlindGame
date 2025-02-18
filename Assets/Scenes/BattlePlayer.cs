@@ -8,6 +8,7 @@ public class BattlePlayer : MonoBehaviour
     public int currentAxis = 0;
     public AudioSource soundSource;
 
+    public AudioClip cooldownClip;
     public AudioClip healClip;
     public AudioClip speedupClip;
     public AudioClip pushClip;
@@ -17,6 +18,15 @@ public class BattlePlayer : MonoBehaviour
 
     private BattleCharacter currentSelectedCharacter = null;
     
+    public Dictionary<KeyCode, float> CooldownDictionary = new Dictionary<KeyCode, float>()
+    {
+        {KeyCode.Alpha1,0},
+        { KeyCode.Alpha2,0},
+        { KeyCode.Alpha3,0},
+        { KeyCode.Alpha4,0},
+    };
+    
+    float cooldownTime = 5;
     
     // Start is called before the first frame update
     void Start()
@@ -65,8 +75,22 @@ Dictionary<KeyCode,bool> isEnemy = new Dictionary<KeyCode,bool>()
 };
         foreach (var key in spellKeys)
         {
+            CooldownDictionary[key]  = CooldownDictionary[key] - Time.deltaTime;
             if (Input.GetKeyDown(key))
             {
+                if (CooldownDictionary[key] > 0)
+                {
+                    soundSource.PlayOneShot(cooldownClip);
+                    
+                    return;
+                }
+
+                if (currentKeyCode != KeyCode.Backspace && currentKeyCode != key)
+                {
+                    continue;
+                }
+                
+                
                 var target = findCharacterInFront(isEnemy[key]);
                 if (target != null)
                 {
@@ -94,25 +118,20 @@ Dictionary<KeyCode,bool> isEnemy = new Dictionary<KeyCode,bool>()
                 {
                     currentKeyCode  = KeyCode.Backspace;
 
+                    CooldownDictionary[key]  =  cooldownTime;
                     switch (key)
                     {
                         case KeyCode.Alpha1:
-                            
-                            currentSelectedCharacter.talkSoundSource.PlayOneShot(healClip);
-                            currentSelectedCharacter.Heal();
-                            DialogueManager.Instance.GetInput("heal");
+                            StartCoroutine(healEnumetor(currentSelectedCharacter));
                             break;
                         case KeyCode.Alpha2:
-                            currentSelectedCharacter.talkSoundSource.PlayOneShot(speedupClip);
-                            currentSelectedCharacter.Speedup();
+                            StartCoroutine(speedUpEnumetor(currentSelectedCharacter));
                             break;
                         case KeyCode.Alpha3:
-                            currentSelectedCharacter.talkSoundSource.PlayOneShot(pushClip);
-                            currentSelectedCharacter.Push();
+                            StartCoroutine(pushEnumetor(currentSelectedCharacter));
                             break;
                         case KeyCode.Alpha4:
-                            currentSelectedCharacter.talkSoundSource.PlayOneShot(stunClip);
-                            currentSelectedCharacter.Stun();
+                            StartCoroutine(stunEnumetor(currentSelectedCharacter));
                             break;
                     }
                   
@@ -187,7 +206,58 @@ Dictionary<KeyCode,bool> isEnemy = new Dictionary<KeyCode,bool>()
         //     }
         // }
     }
+
+    IEnumerator healEnumetor(BattleCharacter currentSelectedCharacter)
+    {
+        var audio = Resources.Load<AudioClip>("sfx/character/healer/heal");
+        soundSource.PlayOneShot(audio);
+        yield return new WaitForSeconds(audio.length);
+        if (currentSelectedCharacter == null || currentSelectedCharacter.isDead)
+        {
+            yield break;
+        }
+        currentSelectedCharacter.weaponAttack.PlayOneShot(healClip);
+        currentSelectedCharacter.Heal();
+        DialogueManager.Instance.GetInput("heal");
+    }
+    IEnumerator speedUpEnumetor(BattleCharacter currentSelectedCharacter)
+    {
+        
+        var audio = Resources.Load<AudioClip>("sfx/character/healer/speedUp");
+        soundSource.PlayOneShot(audio);
+        yield return new WaitForSeconds(audio.length);
+        if (currentSelectedCharacter == null || currentSelectedCharacter.isDead)
+        {
+            yield break;
+        }
+        currentSelectedCharacter.weaponAttack.PlayOneShot(speedupClip);
+        currentSelectedCharacter.Speedup();
+    }
     
+    IEnumerator pushEnumetor(BattleCharacter currentSelectedCharacter)
+    {
+        var audio = Resources.Load<AudioClip>("sfx/character/healer/push back");
+        soundSource.PlayOneShot(audio);
+         yield return new WaitForSeconds(audio.length);
+         if (currentSelectedCharacter == null || currentSelectedCharacter.isDead)
+         {
+             yield break;
+         }
+        currentSelectedCharacter.weaponAttack.PlayOneShot(pushClip);
+        currentSelectedCharacter.Push();
+    }
+    IEnumerator stunEnumetor(BattleCharacter currentSelectedCharacter)
+    {
+        var audio = Resources.Load<AudioClip>("sfx/character/healer/stun");
+        soundSource.PlayOneShot(audio);
+        yield return new WaitForSeconds(audio.length);
+        if (currentSelectedCharacter == null || currentSelectedCharacter.isDead)
+        {
+            yield break;
+        }
+        currentSelectedCharacter.weaponAttack.PlayOneShot(stunClip);
+        currentSelectedCharacter.Stun();
+    }
     
 
     bool isCastingSpell => (currentKeyCode != KeyCode.Backspace);

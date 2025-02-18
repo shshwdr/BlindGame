@@ -51,6 +51,11 @@ public class BattleCharacter : MonoBehaviour
 
     public GameObject renderer;
 
+    public void resetBattle()
+    {
+        StopWalking();
+    }
+    
     public bool isSpeaking()
     {
         if (talkSoundSource == null)
@@ -65,6 +70,12 @@ public class BattleCharacter : MonoBehaviour
 
         return true;
         return talkSoundSource!=null && (talkSoundSource.isPlaying || talkSoundSource.time != 0);
+    }
+
+    public IEnumerator speakWithDelay(string key, float time, bool isInterrupt = false)
+    {
+         yield return new WaitForSeconds(time);
+         Speak(key,isInterrupt);
     }
     public void Speak(string key,bool isInterrupt = false)
     {
@@ -545,7 +556,7 @@ talkSoundSource.Stop();
     {
         currentHP = Mathf.Clamp(currentHP + 50, 0, maxHP);
         
-        Speak("SpellHealed");
+        StartCoroutine(speakWithDelay("SpellHealed",0.3f));
     }
 
     private float speedupTime = 5;
@@ -555,7 +566,7 @@ talkSoundSource.Stop();
     {
         speedupTimer = speedupTime;
         
-        Speak("SpellSpeedUp");
+        StartCoroutine(speakWithDelay("SpellSpeedUp",0.3f));
     }
 
     private float stunTime = 5;

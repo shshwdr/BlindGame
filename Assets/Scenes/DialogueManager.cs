@@ -7,6 +7,7 @@ using UnityEngine;
 public class DialogueManager : Singleton<DialogueManager>
 {
     public TMP_Text dialogueText;
+    public AudioSource systemDialogueSource;
     public AudioSource dialogueSource;
     public BattlePlayer player;
     public Dictionary<string, BattleCharacter> allies = new Dictionary<string, BattleCharacter>();
@@ -36,6 +37,11 @@ public class DialogueManager : Singleton<DialogueManager>
         {
             FinishDialogue();
         }
+
+        if (Input.GetKeyDown(KeyCode.Space))
+        {
+            GetInput("space");
+        }
     }
 
     private string waitingKey = "";
@@ -64,6 +70,7 @@ public class DialogueManager : Singleton<DialogueManager>
                 succeed = true;
             }
         }
+        
 
         if (succeed)
         {
@@ -93,7 +100,14 @@ public class DialogueManager : Singleton<DialogueManager>
     IEnumerator PlayDialogue(DialogueInfo info)
     {
         currentInfo = info;
-        dialogueSource = allies[info.speaker].talkSoundSource;
+        if (info.speaker == "system")
+        {
+            dialogueSource = systemDialogueSource;
+        }
+        else
+        {
+            dialogueSource = allies[info.speaker].talkSoundSource;
+        }
         dialogueSource.clip = Resources.Load<AudioClip>("audio/dialogue/" + info.id);
         
         if(dialogueSource.clip!=null)

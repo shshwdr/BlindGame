@@ -93,6 +93,7 @@ public class BattleField : Singleton<BattleField>
         {
             currentAlliesInBattle.Add(currentAlly);
             currentAlly.Init(currentAlly.name,currentAlly.currentAxis);
+            currentAlly.GetComponent<BattleCharacter>().resetBattle();
         }
     }
     public void StartBattle(string id)

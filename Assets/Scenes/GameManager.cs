@@ -10,7 +10,7 @@ public class GameManager : Singleton<GameManager>
     {
         CSVLoader.Instance.Init();
         DialogueManager.Instance.Init();
-        DialogueManager.Instance.StartDialogue("dialogue_1_1");
+        DialogueManager.Instance.StartDialogue("dialogue_0_1");
     }
 
     // Update is called once per frame
