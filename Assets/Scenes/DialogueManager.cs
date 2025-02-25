@@ -127,12 +127,13 @@ public class DialogueManager : Singleton<DialogueManager>
             if (info.wait != null && info.wait.Length > 0 &&getWaitingKey == false)
             {
                 canInterrupt = true;
-                yield return new WaitForSeconds(1);
+                yield return new WaitForSeconds(5);
                 if(dialogueSource.clip!=null)
                 dialogueSource.Play();
             }
             else
             {
+                yield return new WaitForSeconds(info.delayTime);
                 break;
             }
         }

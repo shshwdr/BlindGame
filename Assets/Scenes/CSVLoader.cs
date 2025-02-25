@@ -14,7 +14,7 @@ public class DialogueInfo
     public string wait;
     public List<string> eventAfter;
     public DialogueInfo nextDialogue;
-
+    public float delayTime;
 }
 
 public class BattleInfo
