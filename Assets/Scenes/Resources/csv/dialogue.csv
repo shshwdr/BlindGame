@@ -1,5 +1,5 @@
 ﻿id,text,speaker,isLoop,otherEvent,wait,isEnd,eventAfter,delayTime
-dialogue_0_1,"Press Space to start the game. If you can't, try turning off your screen reader software or whatever is reading the web page.",system,1,,space,,,2
+dialogue_0_1,"Press Space to start the game. If you can't, try turning off your screen reader software or whatever is reading the web page.",system,1,,space,,,6
 dialogue_0_2,Headphones create a much better experience.,system,,,,,,2
 dialogue_0_3,Pause the game by hitting the P key anytime you want.,system,,,,,,4
 dialogue_0_4,"You were once a simple painter, making an honest living in your village.",system,,,,,,2
