@@ -127,7 +127,7 @@ public class DialogueManager : Singleton<DialogueManager>
             if (info.wait != null && info.wait.Length > 0 &&getWaitingKey == false)
             {
                 canInterrupt = true;
-                yield return new WaitForSeconds(5);
+                yield return new WaitForSeconds(6);
                 if(dialogueSource.clip!=null)
                 dialogueSource.Play();
             }
