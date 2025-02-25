@@ -23,17 +23,17 @@ dialogue_2_2,You learned a new spell: Kineto,system,,,,,,2
 dialogue_2_3,Press the 2 key to cast Kineto.,system,,,,,,2
 dialogue_2_4,"Well, I'll be. That new spell is sure to come in handy.",hero1,,,,,,2
 dialogue_2_5,"You sure know you're stuff, Pell.",hero1,,,,,,2
-dialogue_3_1,"Oh, I haven't introduced myself. I'm Kinrick!",hero1,,,,,,2
+dialogue_3_1,"Oh, I haven't introduced myself. I'm Kinrick!",hero1,,,,,,0
 dialogue_3_2,"I was a farmer my whole life, then the Awakening took everything away...",hero1,,,,,,2
-dialogue_3_3,"I lost my left arm, sure. But my right arm grew in strength tenfold!",hero1,,,,,,2
-dialogue_3_4,But the power comes at a cost. I've hurt many people on accident... even family.,hero1,,,,,,2
-dialogue_3_5,My life was normal before these Awakening monsters ruined everything. So I'll be dammed if I don't take out each and everyone!,hero1,,,,,,2
+dialogue_3_3,"I lost my left arm, sure. But my right arm grew in strength tenfold!",hero1,,,,,,0
+dialogue_3_4,But the power comes at a cost. I've hurt many people on accident... even family.,hero1,,,,,,1
+dialogue_3_5,My life was normal before these Awakening monsters ruined everything. So I'll be dammed if I don't take out each and everyone!,hero1,,,,,,1
 dialogue_3_6,"And now here we are, teamed up with a healer I found lying on the ground.",hero1,,,,,,2
 dialogue_3_7,"So how about you? You... Wait, Shhh...",hero1,,,,,,2
 dialogue_3_8,"Huh, I guess I really do have a big mouth. The wife was right. Anyway, get ready for a fight!",hero1,,,,,,2
 dialogue_3_9,These goblins are pretty easy. They're too stupid so I can agro them just for standing close.,hero1,,,,,,2
 dialogue_3_10,"Perfect enemy to test your abilities! Keep using your spells on me, though.",hero1,,,,,,2
-dialogue_3_11,Press space to start the battle.,system,1,,,1,startBattle|2,2
+dialogue_3_11,Press space to start the battle.,system,1,,,1,startBattle|1,2
 dialogue_4_1,Nice shooting! I thought we were done for there.,hero1,,,,,addAlly|hero2,2
 dialogue_4_2,"Another survivor, huh? You look like you can handle yourself.",hero1,,,,,,2
 dialogue_4_3,"I was doing fine until a snake nearly got the jump on me. Took it down, but not before it gave me a nice parting gift.",hero2,,,,,,2
