@@ -10,6 +10,15 @@ public class GameManager : Singleton<GameManager>
     {
         CSVLoader.Instance.Init();
         DialogueManager.Instance.Init();
+
+        MusicManager.Instance.PlayMusic("calm");
+        StartCoroutine(waitToStartDialogue());
+    }
+
+    IEnumerator waitToStartDialogue()
+    {
+        yield return new WaitForSeconds(5f);
+        
         DialogueManager.Instance.StartDialogue("dialogue_0_1");
     }
 

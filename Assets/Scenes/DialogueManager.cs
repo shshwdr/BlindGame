@@ -95,6 +95,9 @@ public class DialogueManager : Singleton<DialogueManager>
                 
                 StartCoroutine(allies[info.otherEvent[1]].MoveTo(targetAxis,5,3f));
                 break;
+            case "music":
+                MusicManager.Instance.PlayMusic(info.otherEvent[1]);
+                break;
         }
     }
     IEnumerator PlayDialogue(DialogueInfo info)

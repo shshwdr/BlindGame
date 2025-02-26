@@ -10,7 +10,7 @@ dialogue_1_1,"Are you alright, Pell? You've been asleep for days!",hero1,1,,,,,2
 dialogue_1_2,"So you can't see anything, aye? Another gift from the Awakening. Just be grateful you have both feet.",hero1,1,,,,,2
 dialogue_1_3,How's your healing ability? Any good?,hero1,,,,,,2
 dialogue_1_4,Let's see if you know how to handle yourself in a fight.,hero1,,,,,,2
-dialogue_1_5,Remember how to rotate? Press the left or right arrow key to rotate yourself.,hero1,1,,rotate,,,2
+dialogue_1_5,Remember how to rotate? Press the left or right arrow key to rotate yourself.,hero1,1,music|tense,rotate,,,2
 dialogue_1_51,"Each rotation is 45 degrees, rotate 8 times to make a complete circle.",hero1,,,,,,2
 dialogue_1_52,"These tricky bastards like to spawn wherever fancies them. I'll take them out, but you make sure to heal me!",hero1,,,,,,2
 dialogue_1_6,You won't be able to cast spell to me unless you face me. Rotate until my voice gets louder!,hero1,1,move|hero1|first,face,,,2
@@ -18,7 +18,7 @@ dialogue_1_7,"Good. The better you can hear me, the closer you are to finding my
 dialogue_1_8,Press the 1 key to cast a healing spell.,hero1,1,,heal,,,2
 dialogue_1_9,"Good, now I'm going to move to another place, keep rotating to heal me.",hero1,1,move|hero1|first,heal,,,2
 dialogue_1_10,You got the basics down. Let's see how you do on a real adventure. ,hero1,,,,,,2
-dialogue_2_1,You leveled up!,system,,,,,,2
+dialogue_2_1,You leveled up!,system,,music|calm,,,,2
 dialogue_2_2,You learned a new spell: Kineto,system,,,,,,2
 dialogue_2_3,Press the 2 key to cast Kineto.,system,,,,,,2
 dialogue_2_4,"Well, I'll be. That new spell is sure to come in handy.",hero1,,,,,,2
@@ -34,7 +34,7 @@ dialogue_3_8,"Huh, I guess I really do have a big mouth. The wife was right. Any
 dialogue_3_9,These goblins are pretty easy. They're too stupid so I can agro them just for standing close.,hero1,,,,,,2
 dialogue_3_10,"Perfect enemy to test your abilities! Keep using your spells on me, though.",hero1,,,,,,2
 dialogue_3_11,Press space to start the battle.,system,1,,,1,startBattle|1,2
-dialogue_4_1,Nice shooting! I thought we were done for there.,hero1,,,,,addAlly|hero2,2
+dialogue_4_1,Nice shooting! I thought we were done for there.,hero1,,music|calm,,,addAlly|hero2,2
 dialogue_4_2,"Another survivor, huh? You look like you can handle yourself.",hero1,,,,,,2
 dialogue_4_3,"I was doing fine until a snake nearly got the jump on me. Took it down, but not before it gave me a nice parting gift.",hero2,,,,,,2
 dialogue_4_4,Name’s Kinrick. The quiet one here is Pell. What should we call you?,hero1,,,,,,2
@@ -48,7 +48,7 @@ dialogue_4_11,Works for me. Let’s move.,hero2,,,,,,2
 dialogue_4_12,Esha the archer joined your team.,system,,,,,,2
 dialogue_4_13,"She can attack from a distance, making her less likely to get hurt. But she has lower health, so if she does take damage, heal her quickly!",system,,,,,,2
 dialogue_4_14,Ah! More goblins incoming—get ready for battle!,hero2,,,,1,startBattle|2,2
-dialogue_push_1,You leveled up!,system,,,,,learnSpell|3,2
+dialogue_push_1,You leveled up!,system,,music|calm,,,learnSpell|3,2
 dialogue_push_2,You learned a new spell: Push back,system,,,,,,2
 dialogue_push_3,Press the 3 key to target an enemy and push them away.,system,,,,,,2
 dialogue_5_1,"Finally, a chance to rest. Feels like we’ve been fighting all day.",hero1,,,,,,2
@@ -60,10 +60,10 @@ dialogue_5_6,"Normally, I’ll be standing closer to you. When Kinrick is direct
 dialogue_5_7,"Hey! Ignore her. You can hold the skill key, then press the Up or Down arrow to switch your target.",hero1,,,,,,2
 dialogue_5_8,"When you switch, you’ll only hear the selected character’s voice clearly—everyone else fades out.",hero1,,,,,,2
 dialogue_5_9,And you can’t rotate while selecting a target.,hero2,,,,,,2
-dialogue_5_10,Let’s practice! Try selecting me and healing me now.,hero1,,,,,,2
+dialogue_5_10,Let’s practice! Try selecting me and healing me now.,hero1,,music|tense,,,,2
 dialogue_5_11,Great! You can use this same method to target enemies too!,hero2,,,,,,2
 dialogue_5_12,"Not bad, Pell. You’re getting the hang of this.",hero1,,,,,,2
-dialogue_5_13,"Now, if we’re done training, I’d like to actually enjoy the fire for a moment.",hero2,,,,,,2
+dialogue_5_13,"Now, if we’re done training, I’d like to actually enjoy the fire for a moment.",hero2,,music|calm,,,,2
 dialogue_5_14,"Heh, alright, alright. We’ll call it a night.",hero1,,,,,,6
 dialogue_6_1,(Mumbling in sleep) Mmm… roast meat… crispy potatoes… grilled shrimp… (slurps),hero1,,,,,,2
 dialogue_6_2,"(Smacks him awake) Wake up, you oaf! We’ve got company!",hero2,,,,,,2

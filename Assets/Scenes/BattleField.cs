@@ -37,7 +37,7 @@ public class BattleField : Singleton<BattleField>
 
     [SerializeField] private EventReference musicEvent;
 
-    private EventInstance battlemusic;
+    //private EventInstance battlemusic;
 
 
     public void AddAlly(string key)
@@ -50,7 +50,7 @@ public class BattleField : Singleton<BattleField>
     private void Start()
     {
 
-        battlemusic = RuntimeManager.CreateInstance(musicEvent);
+        //battlemusic = RuntimeManager.CreateInstance(musicEvent);
     }
 
     static public float AxisToDegree(int axis)
@@ -98,6 +98,8 @@ public class BattleField : Singleton<BattleField>
     }
     public void StartBattle(string id)
     {
+        
+        MusicManager.Instance.PlayMusic("battle");
         enemyCount = 0;
         battleInfo = CSVLoader.Instance.battleInfoDict[id];
         enemiesList.Clear();
@@ -125,8 +127,8 @@ public class BattleField : Singleton<BattleField>
         spawnTimer = 5;
         //goblinMaxNumber = int.Parse( battleInfo.enemy[1]);
         enemyKilled = 0;
-        battlemusic.start();
-        battlemusic.setVolume(currentVolumn);
+        //battlemusic.start();
+        //battlemusic.setVolume(currentVolumn);
     }
     // Start is called before the first frame update
 
@@ -142,6 +144,7 @@ public class BattleField : Singleton<BattleField>
     void afterBattle()
     {
 
+        MusicManager.Instance.PlayMusic("calm");
         resetCurrentCharacters();
         foreach (var enemy in enemies)
         {
@@ -149,7 +152,7 @@ public class BattleField : Singleton<BattleField>
         }
         enemies.Clear();
         
-        battlemusic.stop(FMOD.Studio.STOP_MODE.ALLOWFADEOUT);
+        //battlemusic.stop(FMOD.Studio.STOP_MODE.ALLOWFADEOUT);
         lastJoinCharacter++;
     }
     public void KillEnemy()
@@ -227,7 +230,7 @@ public class BattleField : Singleton<BattleField>
             {
                 currentVolumn = 1;
             }
-            battlemusic.setVolume(currentVolumn);
+            //battlemusic.setVolume(currentVolumn);
         }
         else if (Input.GetKeyDown(KeyCode.S))
         {
@@ -236,7 +239,7 @@ public class BattleField : Singleton<BattleField>
              {
                  currentVolumn = 0;
              }
-             battlemusic.setVolume(currentVolumn);
+             //battlemusic.setVolume(currentVolumn);
         }
         
         spawnTimer -= Time.deltaTime;
