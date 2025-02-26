@@ -8,11 +8,13 @@ public class DialogueInfo
     public string id;
     public string text;
     public string speaker;
+    public bool canInterrupt;
     public bool isLoop;
     public List<string> otherEvent;
     public bool isEnd;
     public string wait;
     public List<string> eventAfter;
+    public List<string> afterLine;
     public DialogueInfo nextDialogue;
     public float delayTime;
 }
@@ -37,6 +39,11 @@ public class CSVLoader : Singleton<CSVLoader>
         DialogueInfo lastInfo = null;
         foreach (var info in gateInfos)
         {
+            var clip = Resources.Load<AudioClip>("audio/dialogue/" + info.id);
+            if (clip == null)
+            {
+                Debug.LogError($"dialogue {info.id} not found");
+            }
             dialogueInfoDict[info.id] = info;
             if (lastInfo != null && !lastInfo.isEnd)
             {

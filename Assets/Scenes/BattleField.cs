@@ -1,6 +1,7 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 using FMOD.Studio;
 using FMODUnity;
 using UnityEngine;
@@ -223,24 +224,7 @@ public class BattleField : Singleton<BattleField>
 
         DialogueManager.Instance.SetBattleDialogue(battleInfo.id);
 
-        if (Input.GetKeyDown(KeyCode.W))
-        {
-            currentVolumn += 0.1f;
-            if (currentVolumn > 1)
-            {
-                currentVolumn = 1;
-            }
-            //battlemusic.setVolume(currentVolumn);
-        }
-        else if (Input.GetKeyDown(KeyCode.S))
-        {
-             currentVolumn -= 0.1f;
-             if (currentVolumn < 0)
-             {
-                 currentVolumn = 0;
-             }
-             //battlemusic.setVolume(currentVolumn);
-        }
+        
         
         spawnTimer -= Time.deltaTime;
          if (spawnTimer <= 0 && enemyCount< goblinMaxNumber)
@@ -253,7 +237,7 @@ public class BattleField : Singleton<BattleField>
 
          }
 
-         foreach (var ally in currentAlliesInBattle)
+         foreach (var ally in currentAlliesInBattle.ToList())
          {
              
              ally.UpdateBattle(Time.deltaTime);
@@ -269,17 +253,17 @@ public class BattleField : Singleton<BattleField>
     {
         int axis = Random.Range(0, MaxAxis+1);
         var position = GetLocation(axis, 10);
-             
+        var enemy = enemiesList[0];
         var go =Instantiate(Resources.Load<GameObject>("Prefabs/"+enemiesList[0]), position, Quaternion.identity);
-        go.GetComponent<BattleCharacter>().Init(enemiesList[0],axis);
+        go.GetComponent<BattleCharacter>().Init(enemy,axis);
         enemiesList.RemoveAt(0);
         enemies.Add(go.GetComponent<BattleCharacter>());
         
         
         if (Random.Range(0, 100) < 40)
         {
-                   
-            currentAlliesInBattle.RandomItem().Speak("NewGoblinSpawn");
+            enemy = char.ToUpper(enemy[0]) + string.Join("", enemy.Skip(1));
+            currentAlliesInBattle.RandomItem().Speak("New"+enemy+"Spawn");
         }
         
         

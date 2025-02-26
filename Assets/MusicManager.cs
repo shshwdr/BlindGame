@@ -24,7 +24,7 @@ public class MusicManager : Singleton<MusicManager>
     // 淡出起始音量（当前音频的音量）
     private float currentStartVolume = 1f;
     // 目标音频的最终音量（默认1）
-    private float targetFinalVolume = 1f;
+    private float targetFinalVolume = 0.4f;
     // 淡入淡出的计时器
     private float fadeTimer = 0f;
     // 标记是否正在进行淡入淡出过程
@@ -35,16 +35,21 @@ public class MusicManager : Singleton<MusicManager>
         if (str == "calm")
         {
             FadeTo(calmDialogueMusic);
+            targetSource.loop = true;
         }
         else if (str == "tense")
         {
             FadeTo(tenseDialogueMusic);
+            targetSource.loop = true;
         }
         else if (str == "battle")
         {
-            FadeTo(battleMusic);
+            FadeTo(battleMusicStart);
+            targetSource.loop = false;
         }
     }
+
+    private AudioSource anotherSource => (currentSource == audioSource1) ? audioSource2 : audioSource1;
 
     /// <summary>
     /// 对外接口：传入目标 AudioClip，进行交叉淡入淡出
@@ -68,7 +73,7 @@ public class MusicManager : Singleton<MusicManager>
         else
         {
             // 当前正在播放，则选择另一个 AudioSource
-            targetSource = (currentSource == audioSource1) ? audioSource2 : audioSource1;
+            targetSource =anotherSource;
             currentStartVolume = currentSource.volume;
         }
 
@@ -84,6 +89,46 @@ public class MusicManager : Singleton<MusicManager>
 
     private void Update()
     {
+        bool setValue = false;
+        if (Input.GetKeyDown(KeyCode.W))
+        {
+            targetFinalVolume += 0.1f;
+            if (targetFinalVolume > 1)
+            {
+                targetFinalVolume = 1;
+            }
+
+            setValue = true;
+            //battlemusic.setVolume(currentVolumn);
+        }
+        else if (Input.GetKeyDown(KeyCode.S))
+        {
+            targetFinalVolume -= 0.1f;
+            if (targetFinalVolume < 0)
+            {
+                targetFinalVolume = 0;
+            }
+            setValue = true;
+            //battlemusic.setVolume(currentVolumn);
+        }
+
+        if (setValue)
+        {
+            audioSource1.volume =  targetFinalVolume;
+            audioSource2.volume =  targetFinalVolume;
+        }
+        
+        if (currentSource&& !currentSource.isPlaying && currentSource.clip == battleMusicStart)
+        {
+            currentSource.loop = true;
+            currentSource.clip = battleMusic;
+            currentSource.Play();
+            anotherSource.clip = battleMusicStartTail;
+            anotherSource.loop = false;
+            anotherSource.volume = targetFinalVolume; 
+            anotherSource.Play();
+        }
+        
         if (!isFading)
             return;
 
@@ -111,5 +156,7 @@ public class MusicManager : Singleton<MusicManager>
             targetSource = null;
             isFading = false;
         }
+
     }
+    
 }

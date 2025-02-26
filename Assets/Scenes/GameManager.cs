@@ -12,7 +12,8 @@ public class GameManager : Singleton<GameManager>
         DialogueManager.Instance.Init();
 
         MusicManager.Instance.PlayMusic("calm");
-        StartCoroutine(waitToStartDialogue());
+        DialogueManager.Instance.StartDialogue("dialogue_5_10");
+        //StartCoroutine(waitToStartDialogue());
     }
 
     IEnumerator waitToStartDialogue()

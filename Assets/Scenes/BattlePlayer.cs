@@ -96,19 +96,7 @@ Dictionary<KeyCode,bool> isEnemy = new Dictionary<KeyCode,bool>()
                 {
                     currentKeyCode = key;
                     currentSelectedCharacter = target;
-                    
-                    foreach (var filter in FindObjectsOfType<AudioDirectionFilter>())
-                    {
-                        var character = filter.GetComponent<BattleCharacter>();
-                        if (character && character == currentSelectedCharacter)
-                        {
-                            filter.CutCharacter(false);
-                        }
-                        else
-                        {
-                            filter.CutCharacter(true);
-                        }
-                    }
+                    updateFilters();
                 }
             }
 
@@ -154,10 +142,12 @@ Dictionary<KeyCode,bool> isEnemy = new Dictionary<KeyCode,bool>()
                 if (Input.GetKeyDown(KeyCode.UpArrow))
                 {
                     currentSelectedCharacter = findAnotherCharacterInFront(currentSelectedCharacter, true);
+                    updateFilters();
                 }
                 else if (Input.GetKeyDown(KeyCode.DownArrow))
                 {
                     currentSelectedCharacter = findAnotherCharacterInFront(currentSelectedCharacter, false);
+                    updateFilters();
                 }
 
 
@@ -207,8 +197,31 @@ Dictionary<KeyCode,bool> isEnemy = new Dictionary<KeyCode,bool>()
         // }
     }
 
+    public void updateFilters()
+    {
+        
+        foreach (var filter in FindObjectsOfType<AudioDirectionFilter>())
+        {
+            var character = filter.GetComponent<BattleCharacter>();
+            if (character && character == currentSelectedCharacter)
+            {
+                filter.CutCharacter(false);
+            }
+            else
+            {
+                filter.CutCharacter(true);
+            }
+        }
+    }
+
     IEnumerator healEnumetor(BattleCharacter currentSelectedCharacter)
     {
+        DialogueManager.Instance.GetInput("heal");
+        if (currentSelectedCharacter.name == "hero1")
+        {
+            
+            DialogueManager.Instance.GetInput("healHero1");
+        }
         var audio = Resources.Load<AudioClip>("sfx/character/healer/heal");
         soundSource.PlayOneShot(audio);
         yield return new WaitForSeconds(audio.length);
@@ -218,11 +231,11 @@ Dictionary<KeyCode,bool> isEnemy = new Dictionary<KeyCode,bool>()
         }
         currentSelectedCharacter.weaponAttack.PlayOneShot(healClip);
         currentSelectedCharacter.Heal();
-        DialogueManager.Instance.GetInput("heal");
     }
     IEnumerator speedUpEnumetor(BattleCharacter currentSelectedCharacter)
     {
         
+        DialogueManager.Instance.GetInput("speedup");
         var audio = Resources.Load<AudioClip>("sfx/character/healer/speedUp");
         soundSource.PlayOneShot(audio);
         yield return new WaitForSeconds(audio.length);
@@ -236,6 +249,7 @@ Dictionary<KeyCode,bool> isEnemy = new Dictionary<KeyCode,bool>()
     
     IEnumerator pushEnumetor(BattleCharacter currentSelectedCharacter)
     {
+        DialogueManager.Instance.GetInput("push");
         var audio = Resources.Load<AudioClip>("sfx/character/healer/push back");
         soundSource.PlayOneShot(audio);
          yield return new WaitForSeconds(audio.length);
@@ -248,6 +262,7 @@ Dictionary<KeyCode,bool> isEnemy = new Dictionary<KeyCode,bool>()
     }
     IEnumerator stunEnumetor(BattleCharacter currentSelectedCharacter)
     {
+        DialogueManager.Instance.GetInput("stun");
         var audio = Resources.Load<AudioClip>("sfx/character/healer/stun");
         soundSource.PlayOneShot(audio);
         yield return new WaitForSeconds(audio.length);

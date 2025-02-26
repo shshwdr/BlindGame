@@ -71,6 +71,7 @@ public class DialogueManager : Singleton<DialogueManager>
             }
         }
         
+        
 
         if (succeed)
         {
@@ -98,6 +99,12 @@ public class DialogueManager : Singleton<DialogueManager>
             case "music":
                 MusicManager.Instance.PlayMusic(info.otherEvent[1]);
                 break;
+            case "hero1PlayMove":
+                BattleField.Instance.allies[0].StartWalking();
+                break;
+            case "hero1StopPlayMove":
+                BattleField.Instance.allies[0].StopWalking();
+                break;
         }
     }
     IEnumerator PlayDialogue(DialogueInfo info)
@@ -118,7 +125,7 @@ public class DialogueManager : Singleton<DialogueManager>
         dialogueText.text = info.text;
         interrupt = false;
         SetWaitingKey(info.wait);
-        canInterrupt = false;
+        canInterrupt = info.canInterrupt;
 
         DoEvent(info);
         
@@ -127,15 +134,26 @@ public class DialogueManager : Singleton<DialogueManager>
             
             yield return new WaitUntil(isStopped);
 
-            if (info.wait != null && info.wait.Length > 0 &&getWaitingKey == false)
+            if (!interrupt)
             {
-                canInterrupt = true;
-                yield return new WaitForSeconds(info.delayTime);
-                if(dialogueSource.clip!=null)
-                dialogueSource.Play();
+                if (info.wait != null && info.wait.Length > 0 &&getWaitingKey == false)
+                {
+                    canInterrupt = true;
+                    DoAfterLineFinishe( info);
+                    yield return new WaitForSeconds(info.delayTime);
+                    if(dialogueSource.clip!=null && !interrupt)
+                        dialogueSource.Play();
+                }
+                else
+                {
+                    DoAfterLineFinishe( info);
+                    yield return new WaitForSeconds(info.delayTime);
+                    break;
+                }
             }
             else
             {
+                DoAfterLineFinishe( info);
                 yield return new WaitForSeconds(info.delayTime);
                 break;
             }
@@ -162,6 +180,19 @@ public class DialogueManager : Singleton<DialogueManager>
         dialogueText.text = $"Battle {battleName} is In Progress";
     }
 
+    void DoAfterLineFinishe(DialogueInfo info)
+    {
+        if (info.afterLine!=null &&info.afterLine.Count>0)
+        {
+            switch (info.afterLine[0])
+            {
+                case "sfx":
+                    GameObject.Find(info.afterLine[1]).GetComponent<AudioSource>().Play();
+                    break;
+                    
+            }
+        }
+    }
     void DoAfterDialogueEvent(DialogueInfo info)
     {
         if (info.eventAfter!=null &&info.eventAfter.Count>0)
@@ -174,6 +205,7 @@ public class DialogueManager : Singleton<DialogueManager>
                 case "addAlly":
                     BattleField.Instance.AddAlly(info.eventAfter[1]);
                     break;
+                    
             }
         }
     }

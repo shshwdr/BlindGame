@@ -17,6 +17,8 @@ public class BattleCharacter : MonoBehaviour
     public bool canAttackOtherLine = false;
     public bool canAttackHealer = false;
 
+    public Vector3 originalPos;
+    
     public AudioSource moveSoundSource;
     public AudioSource idleSoundSource;
     public AudioSource attackSoundSource;
@@ -53,6 +55,7 @@ public class BattleCharacter : MonoBehaviour
 
     public void resetBattle()
     {
+        transform.position = originalPos;
         StopWalking();
     }
     
@@ -122,6 +125,20 @@ public class BattleCharacter : MonoBehaviour
         };
         identifier = id;
         currentAxis = axis;
+
+        if (spawnSoundSource!=null && spawnSoundSource.clip != null)
+        {
+            
+            spawnSoundSource.Play();
+        }
+
+        InitSound(id);
+        currentHP = maxHP;
+    }
+
+    public void InitSound(string id)
+    {
+        
         sound = SoundLoadManager.Instance.enemySoundDict.GetValueOrDefault(id);
         if (sound!=null)
         {
@@ -130,19 +147,11 @@ public class BattleCharacter : MonoBehaviour
             idleSoundSource.clip = sound.idleClip;
             moveSoundSource.clip = sound.moveClip;
         }
-
-        if (spawnSoundSource!=null && spawnSoundSource.clip != null)
-        {
-            
-            spawnSoundSource.Play();
-        }
-
-        currentHP = maxHP;
     }
     // Start is called before the first frame update
     void Start()
     {
-        
+         originalPos = transform.position;
     }
 
     // Update is called once per frame
@@ -211,6 +220,11 @@ public class BattleCharacter : MonoBehaviour
         }
 
         speedupTimer -= time;
+        if (isSpeedUp())
+        {
+            moveSoundSource.pitch = 1;
+            
+        }
         if (!isEnmey)
         {
             if (target != null && target.isDead)
@@ -292,7 +306,7 @@ public class BattleCharacter : MonoBehaviour
                 if (!canAttack)
                 {
                     
-                    transform.position += dir.normalized * moveSpeed * time;
+                    transform.position += dir.normalized * moveSpeed * time *(isSpeedUp()?1.5f:1);
                     if (!isWalking)
                     {
                         StartWalking();
@@ -445,11 +459,21 @@ public class BattleCharacter : MonoBehaviour
             BattleField.Instance.KillEnemy();
         }
     }
+
+    private float damageSpeakTriggerTime = 5;
+    private float damageSpeakTriggerTimer = 0;
     void TakeDamage(BattleCharacter attacker, int damage)
     {
         if (isDead)
         {
             return;
+        }
+        damageSpeakTriggerTimer-= Time.deltaTime;
+        if (isHealer&&damageSpeakTriggerTimer<=0)
+        {
+            BattleField.Instance.currentAlliesInBattle.RandomItem().Speak("HealerUnderAttack",true);
+            damageSpeakTriggerTimer = damageSpeakTriggerTime;
+
         }
         currentHP = Mathf.Clamp(currentHP - damage, 0, maxHP);
         if (currentHP <= 0)
@@ -565,7 +589,7 @@ talkSoundSource.Stop();
     public void Speedup()
     {
         speedupTimer = speedupTime;
-        
+        moveSoundSource.pitch = 1.5f;
         StartCoroutine(speakWithDelay("SpellSpeedUp",0.3f));
     }
 
@@ -600,7 +624,7 @@ talkSoundSource.Stop();
     {
         if (isSpeedUp())
         {
-            return attackTime / 2f;
+            return attackTime / 1.5f;
         }
         return attackTime;
     }
@@ -613,13 +637,13 @@ talkSoundSource.Stop();
         }
     }
 
-    void StartWalking()
+    public void StartWalking()
     {
         idleSoundSource.Stop();
         if(moveSoundSource!=null &&moveSoundSource.clip!=null)
         moveSoundSource.Play();
     }
-    void StopWalking()
+    public void StopWalking()
     {
         
         if(idleSoundSource!=null &&idleSoundSource.clip!=null)
