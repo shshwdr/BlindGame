@@ -12,7 +12,7 @@ public class GameManager : Singleton<GameManager>
         DialogueManager.Instance.Init();
 
         MusicManager.Instance.PlayMusic("calm");
-        DialogueManager.Instance.StartDialogue("dialogue_5_10");
+        DialogueManager.Instance.StartDialogue("dialogue_6_6");
         //StartCoroutine(waitToStartDialogue());
     }
 

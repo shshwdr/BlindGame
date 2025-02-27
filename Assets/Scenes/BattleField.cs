@@ -99,7 +99,7 @@ public class BattleField : Singleton<BattleField>
     }
     public void StartBattle(string id)
     {
-        
+        healer.InitHp();
         MusicManager.Instance.PlayMusic("battle");
         enemyCount = 0;
         battleInfo = CSVLoader.Instance.battleInfoDict[id];
@@ -178,13 +178,23 @@ public class BattleField : Singleton<BattleField>
         
         StartCoroutine(loseBattle(skip));
     }
-    
+
+    public AudioSource battleFailedAsk;
+    private int restart = 0; //none, wait, restart
     IEnumerator loseBattle(bool skip = false)
     {
         afterBattle();
         isStart = false;
-        yield return new WaitForSeconds(skip?0:5);
         
+        yield return new WaitForSeconds(skip?0:3);
+        battleFailedAsk.Play();
+        restart = 1;
+        
+        yield return new WaitUntil(() => restart == 2);
+        battleFailedAsk.Stop();
+        
+        yield return new WaitForSeconds(skip?0:3);
+        restart = 0;
         StartBattle(battleId);
         //DialogueManager.Instance.StartDialogue(CSVLoader.Instance.battleInfoDict[battleId].afterBattleEvent[1]);
     }
@@ -202,10 +212,21 @@ public class BattleField : Singleton<BattleField>
     // Update is called once per frame
     void Update()
     {
+        
+        
+        if (restart == 1)
+        {
+            if (Input.GetKeyDown(KeyCode.Space))
+            {
+                restart = 2;
+            }
+        }
+        
         if (!isStart)
         {
             return;
         }
+
 
         if (BattleField.Instance.currentAlliesInBattle.Count == 0)
         {
@@ -242,7 +263,7 @@ public class BattleField : Singleton<BattleField>
              
              ally.UpdateBattle(Time.deltaTime);
          }
-         foreach (var ally in enemies)
+         foreach (var ally in enemies.ToList())
          {
              ally.UpdateBattle(Time.deltaTime);
          }

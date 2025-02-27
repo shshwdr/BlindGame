@@ -1,6 +1,7 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using DG.Tweening;
 using TMPro;
 using UnityEngine;
 
@@ -70,6 +71,11 @@ public class DialogueManager : Singleton<DialogueManager>
                 succeed = true;
             }
         }
+
+        if (key == "healHero2" && waitingKey == "healHero1")
+        {
+            StartCoroutine(waitAndPlaySFX("healHero1"));
+        }
         
         
 
@@ -85,6 +91,11 @@ public class DialogueManager : Singleton<DialogueManager>
         }
     }
 
+    IEnumerator waitAndPlaySFX(string n)
+    {
+        yield return new WaitForSeconds(3f);
+        playSFXOnScene(n);
+    }
     void DoEvent(DialogueInfo info)
     {
         switch (info.otherEvent[0])
@@ -104,6 +115,22 @@ public class DialogueManager : Singleton<DialogueManager>
                 break;
             case "hero1StopPlayMove":
                 BattleField.Instance.allies[0].StopWalking();
+                break;
+            case "ambIn":
+                foreach (var source in GameObject.Find(info.otherEvent[1]).GetComponentsInChildren<AudioSource>())
+                {
+                    source.volume = 0;
+                    source.DOFade(1, 0.5f);
+                    source.Play();
+                }
+                
+                break;
+            case "ambOut":
+                foreach (var source in GameObject.Find(info.otherEvent[1]).GetComponentsInChildren<AudioSource>())
+                {
+                    source.volume = 1;
+                    source.DOFade(0, 0.5f);
+                }   
                 break;
         }
     }
@@ -187,11 +214,17 @@ public class DialogueManager : Singleton<DialogueManager>
             switch (info.afterLine[0])
             {
                 case "sfx":
-                    GameObject.Find(info.afterLine[1]).GetComponent<AudioSource>().Play();
+                    playSFXOnScene(info.afterLine[1]);
                     break;
                     
             }
         }
+    }
+
+    public void playSFXOnScene(string n)
+    {
+        
+        GameObject.Find(n).GetComponent<AudioSource>().Play();
     }
     void DoAfterDialogueEvent(DialogueInfo info)
     {

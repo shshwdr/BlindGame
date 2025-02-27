@@ -1,6 +1,6 @@
 ﻿id,enemy,spawnTime,afterBattleEvent
 1,goblin|5,10,dialogue|dialogue_4_1
 2,goblin|10,4,dialogue|dialogue_push_1
-3,snake|5|goblin|5,4,dialogue|dialogue_stun_1
-4,bat|5|goblin|5,4,dialogue|dialogue_8_1
-5,goblin|5|bat|5|snake|5,4,dialogue|dialogue_9_1
+3,snake|3|goblin|7,4,dialogue|dialogue_stun_1
+4,bat|3|goblin|7,4,dialogue|dialogue_8_1
+5,goblin|8|bat|3|snake|3,4,dialogue|dialogue_9_1

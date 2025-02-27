@@ -110,6 +110,12 @@ public class BattleCharacter : MonoBehaviour
             }
         }
     }
+
+    public void InitHp()
+    {
+        currentHP = maxHP;
+        isDead = false;
+    }
     public void Init(string id,int axis)
     {
         isDead = false;
@@ -469,18 +475,19 @@ public class BattleCharacter : MonoBehaviour
             return;
         }
         damageSpeakTriggerTimer-= Time.deltaTime;
-        if (isHealer&&damageSpeakTriggerTimer<=0)
-        {
-            BattleField.Instance.currentAlliesInBattle.RandomItem().Speak("HealerUnderAttack",true);
-            damageSpeakTriggerTimer = damageSpeakTriggerTime;
-
-        }
         currentHP = Mathf.Clamp(currentHP - damage, 0, maxHP);
         if (currentHP <= 0)
         {
             attacker.KilledOneEnemy();
             Die();
             return;
+        }
+        
+        if (isHealer&&damageSpeakTriggerTimer<=0)
+        {
+            BattleField.Instance.currentAlliesInBattle.RandomItem().Speak("HealerUnderAttack",true);
+            damageSpeakTriggerTimer = damageSpeakTriggerTime;
+
         }
         
         if (sound!=null)
@@ -529,12 +536,16 @@ public class BattleCharacter : MonoBehaviour
             deathSoundSource.transform.parent = transform.parent;
             Destroy(deathSoundSource.gameObject,1);
         }
-        else
+        else 
         {
-            BattleField.Instance.currentAlliesInBattle.Remove(this);
-            renderer.SetActive(false);    
-            deathSoundSource.transform.position = BattleField.GetLocation(currentAxis, 1);
-talkSoundSource.Stop();
+            if (!isHealer)
+            {
+                
+                BattleField.Instance.currentAlliesInBattle.Remove(this);
+                renderer.SetActive(false);    
+                talkSoundSource.Stop();
+                deathSoundSource.transform.position = BattleField.GetLocation(currentAxis, 1);
+            }
         }
 
         //talkSoundSource.transform.parent = transform.parent;
@@ -606,7 +617,7 @@ talkSoundSource.Stop();
     }
     public void Push()
     {
-        transform.position = BattleField.GetLocation(currentAxis, distance() + 5);
+        transform.position = BattleField.GetLocation(currentAxis, distance() + 15);
     }
     public void Stun()
     {

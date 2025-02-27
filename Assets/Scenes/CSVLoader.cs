@@ -42,7 +42,7 @@ public class CSVLoader : Singleton<CSVLoader>
             var clip = Resources.Load<AudioClip>("audio/dialogue/" + info.id);
             if (clip == null)
             {
-                Debug.LogError($"dialogue {info.id} not found");
+                //Debug.LogError($"dialogue {info.id} not found");
             }
             dialogueInfoDict[info.id] = info;
             if (lastInfo != null && !lastInfo.isEnd)

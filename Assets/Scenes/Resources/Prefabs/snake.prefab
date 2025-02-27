@@ -13,6 +13,18 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 2100000, guid: 86bf773983a427349b15d54ccc3972a8, type: 2}
     - target: {fileID: 1077342935725380710, guid: 8be1fdf4535c99b46acdf2de52faa4ef, type: 3}
+      propertyPath: maxHP
+      value: 30
+      objectReference: {fileID: 0}
+    - target: {fileID: 1077342935725380710, guid: 8be1fdf4535c99b46acdf2de52faa4ef, type: 3}
+      propertyPath: moveSpeed
+      value: 0.4
+      objectReference: {fileID: 0}
+    - target: {fileID: 1077342935725380710, guid: 8be1fdf4535c99b46acdf2de52faa4ef, type: 3}
+      propertyPath: attackValue
+      value: 5
+      objectReference: {fileID: 0}
+    - target: {fileID: 1077342935725380710, guid: 8be1fdf4535c99b46acdf2de52faa4ef, type: 3}
       propertyPath: findEnemyRange
       value: 5
       objectReference: {fileID: 0}

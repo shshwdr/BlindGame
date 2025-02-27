@@ -219,8 +219,12 @@ Dictionary<KeyCode,bool> isEnemy = new Dictionary<KeyCode,bool>()
         DialogueManager.Instance.GetInput("heal");
         if (currentSelectedCharacter.name == "hero1")
         {
-            
             DialogueManager.Instance.GetInput("healHero1");
+        }
+        else
+        {
+            
+            DialogueManager.Instance.GetInput("healHero2");
         }
         var audio = Resources.Load<AudioClip>("sfx/character/healer/heal");
         soundSource.PlayOneShot(audio);

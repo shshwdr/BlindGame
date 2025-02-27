@@ -123,10 +123,10 @@ public class MusicManager : Singleton<MusicManager>
             currentSource.loop = true;
             currentSource.clip = battleMusic;
             currentSource.Play();
-            anotherSource.clip = battleMusicStartTail;
-            anotherSource.loop = false;
-            anotherSource.volume = targetFinalVolume; 
-            anotherSource.Play();
+            // anotherSource.clip = battleMusicStartTail;
+            // anotherSource.loop = false;
+            // anotherSource.volume = targetFinalVolume; 
+            // anotherSource.Play();
         }
         
         if (!isFading)
