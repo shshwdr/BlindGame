@@ -12,7 +12,7 @@ GameObject:
   - component: {fileID: 3104311300228742754}
   - component: {fileID: 7802439924171279730}
   - component: {fileID: 1423442767897876435}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: Cube
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -115,7 +115,7 @@ GameObject:
   m_Component:
   - component: {fileID: 2045413943883490625}
   - component: {fileID: 8016616193065015171}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: battleCharacter
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -165,6 +165,7 @@ MonoBehaviour:
   chargeTime: 0
   canAttackOtherLine: 0
   canAttackHealer: 0
+  originalPos: {x: 0, y: 0, z: 0}
   moveSoundSource: {fileID: 4042850039623125376}
   idleSoundSource: {fileID: 4250291134927954710}
   attackSoundSource: {fileID: 5648695306903756024}
@@ -208,6 +209,10 @@ PrefabInstance:
     - target: {fileID: 4295456663513374087, guid: 118a79cd868062a49a1b8f62086a0fc1, type: 3}
       propertyPath: m_Name
       value: moveSound
+      objectReference: {fileID: 0}
+    - target: {fileID: 4295456663513374087, guid: 118a79cd868062a49a1b8f62086a0fc1, type: 3}
+      propertyPath: m_Layer
+      value: 6
       objectReference: {fileID: 0}
     - target: {fileID: 6248885663443583235, guid: 118a79cd868062a49a1b8f62086a0fc1, type: 3}
       propertyPath: m_LocalPosition.x
@@ -291,6 +296,10 @@ PrefabInstance:
     - target: {fileID: 4295456663513374087, guid: 118a79cd868062a49a1b8f62086a0fc1, type: 3}
       propertyPath: m_Name
       value: idleSound
+      objectReference: {fileID: 0}
+    - target: {fileID: 4295456663513374087, guid: 118a79cd868062a49a1b8f62086a0fc1, type: 3}
+      propertyPath: m_Layer
+      value: 6
       objectReference: {fileID: 0}
     - target: {fileID: 6248885663443583235, guid: 118a79cd868062a49a1b8f62086a0fc1, type: 3}
       propertyPath: m_LocalPosition.x
@@ -383,6 +392,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: spawn
       objectReference: {fileID: 0}
+    - target: {fileID: 4295456663513374087, guid: 118a79cd868062a49a1b8f62086a0fc1, type: 3}
+      propertyPath: m_Layer
+      value: 6
+      objectReference: {fileID: 0}
     - target: {fileID: 6248885663443583235, guid: 118a79cd868062a49a1b8f62086a0fc1, type: 3}
       propertyPath: m_LocalPosition.x
       value: 0
@@ -465,6 +478,10 @@ PrefabInstance:
     - target: {fileID: 4295456663513374087, guid: 118a79cd868062a49a1b8f62086a0fc1, type: 3}
       propertyPath: m_Name
       value: talk
+      objectReference: {fileID: 0}
+    - target: {fileID: 4295456663513374087, guid: 118a79cd868062a49a1b8f62086a0fc1, type: 3}
+      propertyPath: m_Layer
+      value: 6
       objectReference: {fileID: 0}
     - target: {fileID: 6248885663443583235, guid: 118a79cd868062a49a1b8f62086a0fc1, type: 3}
       propertyPath: m_LocalPosition.x
@@ -557,6 +574,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: death
       objectReference: {fileID: 0}
+    - target: {fileID: 4295456663513374087, guid: 118a79cd868062a49a1b8f62086a0fc1, type: 3}
+      propertyPath: m_Layer
+      value: 6
+      objectReference: {fileID: 0}
     - target: {fileID: 6248885663443583235, guid: 118a79cd868062a49a1b8f62086a0fc1, type: 3}
       propertyPath: m_LocalPosition.x
       value: 0
@@ -647,6 +668,10 @@ PrefabInstance:
     - target: {fileID: 4295456663513374087, guid: 118a79cd868062a49a1b8f62086a0fc1, type: 3}
       propertyPath: m_Name
       value: takeDamage
+      objectReference: {fileID: 0}
+    - target: {fileID: 4295456663513374087, guid: 118a79cd868062a49a1b8f62086a0fc1, type: 3}
+      propertyPath: m_Layer
+      value: 6
       objectReference: {fileID: 0}
     - target: {fileID: 6248885663443583235, guid: 118a79cd868062a49a1b8f62086a0fc1, type: 3}
       propertyPath: m_LocalPosition.x
@@ -739,6 +764,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: attack
       objectReference: {fileID: 0}
+    - target: {fileID: 4295456663513374087, guid: 118a79cd868062a49a1b8f62086a0fc1, type: 3}
+      propertyPath: m_Layer
+      value: 6
+      objectReference: {fileID: 0}
     - target: {fileID: 6248885663443583235, guid: 118a79cd868062a49a1b8f62086a0fc1, type: 3}
       propertyPath: m_LocalPosition.x
       value: 0
@@ -829,6 +858,10 @@ PrefabInstance:
     - target: {fileID: 4295456663513374087, guid: 118a79cd868062a49a1b8f62086a0fc1, type: 3}
       propertyPath: m_Name
       value: weaponAttack
+      objectReference: {fileID: 0}
+    - target: {fileID: 4295456663513374087, guid: 118a79cd868062a49a1b8f62086a0fc1, type: 3}
+      propertyPath: m_Layer
+      value: 6
       objectReference: {fileID: 0}
     - target: {fileID: 6248885663443583235, guid: 118a79cd868062a49a1b8f62086a0fc1, type: 3}
       propertyPath: m_LocalPosition.x

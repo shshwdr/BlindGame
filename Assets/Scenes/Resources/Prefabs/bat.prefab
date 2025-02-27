@@ -26,11 +26,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 1077342935725380710, guid: 8be1fdf4535c99b46acdf2de52faa4ef, type: 3}
       propertyPath: attackValue
-      value: 20
+      value: 10
       objectReference: {fileID: 0}
     - target: {fileID: 1077342935725380710, guid: 8be1fdf4535c99b46acdf2de52faa4ef, type: 3}
       propertyPath: findEnemyRange
-      value: 10
+      value: 15
       objectReference: {fileID: 0}
     - target: {fileID: 1077342935725380710, guid: 8be1fdf4535c99b46acdf2de52faa4ef, type: 3}
       propertyPath: canAttackOtherLine

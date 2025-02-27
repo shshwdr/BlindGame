@@ -18,11 +18,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 1077342935725380710, guid: 8be1fdf4535c99b46acdf2de52faa4ef, type: 3}
       propertyPath: moveSpeed
-      value: 0.4
+      value: 0.2
       objectReference: {fileID: 0}
     - target: {fileID: 1077342935725380710, guid: 8be1fdf4535c99b46acdf2de52faa4ef, type: 3}
       propertyPath: attackValue
-      value: 5
+      value: 3
       objectReference: {fileID: 0}
     - target: {fileID: 1077342935725380710, guid: 8be1fdf4535c99b46acdf2de52faa4ef, type: 3}
       propertyPath: findEnemyRange

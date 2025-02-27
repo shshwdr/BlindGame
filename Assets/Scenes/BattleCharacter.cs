@@ -415,6 +415,7 @@ public class BattleCharacter : MonoBehaviour
                     }
                     else
                     {
+                        if(isWalking)
                         StopWalking();
                         isWalking = false;
                     }
@@ -604,7 +605,7 @@ public class BattleCharacter : MonoBehaviour
         StartCoroutine(speakWithDelay("SpellSpeedUp",0.3f));
     }
 
-    private float stunTime = 5;
+    private float stunTime = 15;
     private float stunTimer = 0;
 
     bool isStun()
